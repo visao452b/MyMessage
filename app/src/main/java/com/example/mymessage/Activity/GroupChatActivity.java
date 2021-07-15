@@ -31,6 +31,7 @@ public class GroupChatActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         getSupportActionBar().hide();
+        Date date = new Date();
         binding.backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +77,7 @@ public class GroupChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final String message = binding.edtMessage.getText().toString();
-                final MessageModel model =  new MessageModel(senderID, message);
+                final MessageModel model =  new MessageModel(message, senderID, date.getTime());
                 model.setTimestamp(new Date().getTime());
                 binding.edtMessage.setText("");
 

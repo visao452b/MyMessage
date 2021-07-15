@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
+    FirebaseDatabase database;
     FirebaseAuth auth;
 
     @Override
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("message");
         myRef.setValue("Hello, World!");
         auth = FirebaseAuth.getInstance();
@@ -52,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.settings:
                 Intent intent1 = new Intent(this, SettingsActivity.class);
                 startActivity(intent1);
+                break;
+
+            case R.id.findFriends:
+                Intent intent4 = new Intent(this, FindFriends.class);
+                startActivity(intent4);
                 break;
 
             case R.id.groupChat:

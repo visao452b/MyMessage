@@ -49,9 +49,10 @@ public class SignUpActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                             progressDialog.dismiss();
                                 if(task.isSuccessful()) {
-                                    Users users = new Users(binding.edtUsernameSignUp.getText().toString().trim(), binding.edtEmailSignUp.getText().toString().trim(), binding.edtPasswordSignUp.getText().toString().trim());
-
                                     String id = task.getResult().getUser().getUid();
+                                    Users users = new Users(binding.edtUsernameSignUp.getText().toString().trim(), binding.edtEmailSignUp.getText().toString().trim(), binding.edtPasswordSignUp.getText().toString().trim(), id);
+
+
                                     database.getReference().child("Users").child(id).setValue(users);
 //                                    Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
 //                                    startActivity(intent);

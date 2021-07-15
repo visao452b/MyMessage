@@ -1,24 +1,17 @@
 package com.example.mymessage.Models;
 
 public class MessageModel {
+    private String messageId, message, senderId, imageUrl;
+    private long timestamp;
+    private int feeling = -1;
 
-    String uId, message,messageId;
-    Long timestamp;
+    public MessageModel() {
+    }
 
-
-    public MessageModel(String uId, String message, Long timestamp) {
-        this.uId = uId;
+    public MessageModel(String message, String senderId, long timestamp) {
         this.message = message;
+        this.senderId = senderId;
         this.timestamp = timestamp;
-    }
-
-    public MessageModel(String uId, String message) {
-        this.uId = uId;
-        this.message = message;
-    }
-
-    public MessageModel(){
-
     }
 
     public String getMessageId() {
@@ -29,14 +22,6 @@ public class MessageModel {
         this.messageId = messageId;
     }
 
-    public String getuId() {
-        return uId;
-    }
-
-    public void setuId(String uId) {
-        this.uId = uId;
-    }
-
     public String getMessage() {
         return message;
     }
@@ -45,11 +30,35 @@ public class MessageModel {
         this.message = message;
     }
 
-    public Long getTimestamp() {
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Long timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public int getFeeling() {
+        return feeling;
+    }
+
+    public void setFeeling(int feeling) {
+        this.feeling = feeling;
     }
 }

@@ -13,16 +13,33 @@ public class Users {
         this.status = status;
     }
 
+
+
     public Users(){
 
     }
 
 
     //Sign Up contructor
-    public Users(String userName, String email, String password) {
+//    public Users(String userName, String email, String password) {
+//        this.userName = userName;
+//        this.email = email;
+//        this.password = password;
+//    }
+
+    public Users(String userName, String email, String password, String userId) {
         this.userName = userName;
         this.email = email;
         this.password = password;
+        this.userId = userId;
+    }
+
+
+
+    public Users(String userName, String email, String userId) {
+        this.userName = userName;
+        this.email = email;
+        this.userId = userId;
     }
 
     public String getStatus() {

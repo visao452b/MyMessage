@@ -6,6 +6,11 @@
         ></item>
 
     <item
+        android:id="@+id/findFriends"
+        android:title="Find Friend"
+        ></item>
+
+    <item
         android:id="@+id/groupChat"
         android:title="Public Chat"
         ></item>

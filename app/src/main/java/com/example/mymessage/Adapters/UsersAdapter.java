@@ -2,6 +2,7 @@ package com.example.mymessage.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mymessage.Activity.ChatDetailActivity;
+import com.example.mymessage.Activity.MainActivity;
 import com.example.mymessage.Models.Users;
 import com.example.mymessage.R;
+import com.example.mymessage.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,7 +24,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder>{
 
@@ -60,6 +65,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder>{
                         if (snapshot.hasChildren()){
                             for (DataSnapshot snapshot1 : snapshot.getChildren()){
                                 holder.lassMessage.setText(snapshot1.child("message").getValue().toString());
+                                long time = snapshot1.child("timestamp").getValue(Long.class);
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                                holder.msgTime.setText(dateFormat.format(new Date(time)));
+
                             }
                         }
                     }
@@ -92,7 +101,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder>{
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView image;
-        TextView userName, lassMessage;
+        TextView userName, lassMessage, msgTime;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -100,6 +110,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder>{
             image = itemView.findViewById(R.id.profile_image);
             userName = itemView.findViewById(R.id.userNameList);
             lassMessage = itemView.findViewById(R.id.lastMessage);
+            msgTime = itemView.findViewById(R.id.msgTime);
         }
     }
 }

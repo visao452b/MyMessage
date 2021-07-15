@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.mymessage.Fragments.GroupChatFragments;
 import com.example.mymessage.Fragments.ChatsFragments;
-import com.example.mymessage.Fragments.Friends;
+import com.example.mymessage.Fragments.FriendsFragments;
 
 public class FragmentsAdapter extends FragmentPagerAdapter {
     public FragmentsAdapter(@NonNull FragmentManager fm) {
@@ -22,7 +22,7 @@ public class FragmentsAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0: return new ChatsFragments();
-            case 1: return new Friends();
+            case 1: return new FriendsFragments();
             case 2: return new GroupChatFragments();
             default: return new ChatsFragments();
         }
@@ -42,11 +42,11 @@ public class FragmentsAdapter extends FragmentPagerAdapter {
         }
 
         if (position==1){
-            title = "GROUPS";
+            title = "FRIENDS";
         }
 
         if (position==2){
-            title = "FRIENDS";
+            title = "GROUPCHAT";
         }
 
         return title;
