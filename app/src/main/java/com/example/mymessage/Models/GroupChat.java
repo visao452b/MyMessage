@@ -2,7 +2,7 @@ package com.example.mymessage.Models;
 
 public class GroupChat {
 
-    String createdBy, groupId, groupName;
+    String createdBy, groupId, groupName, profilePicGroup;
     Long timestamp;
     public GroupChat() {
     }
@@ -12,6 +12,14 @@ public class GroupChat {
         this.groupId = groupId;
         this.groupName = groupName;
         this.timestamp = timestamp;
+    }
+
+    public String getProfilePicGroup() {
+        return profilePicGroup;
+    }
+
+    public void setProfilePicGroup(String profilePicGroup) {
+        this.profilePicGroup = profilePicGroup;
     }
 
     public String getCreatedBy() {

@@ -13,9 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mymessage.Activity.ChatDetailActivity;
+import com.example.mymessage.Activity.CreateGroupChat;
 import com.example.mymessage.Models.Friends;
 import com.example.mymessage.Models.GroupChat;
 import com.example.mymessage.Models.Participant;
+import com.example.mymessage.Models.UserGroup;
 import com.example.mymessage.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -29,10 +31,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+import static com.example.mymessage.Activity.CreateGroupChat.returnData;
 import static com.example.mymessage.Function.RandomString.randomAlphaNumeric;
 
 public class FriendGroupAdapter extends RecyclerView.Adapter<FriendGroupAdapter.ViewHolderFriendGroup>{
-    final static String idGroup = randomAlphaNumeric(16);
+
+
+
+    String idGroup = returnData();
     ArrayList<Friends> listfg;
     Context context;
     String member;
@@ -43,8 +49,6 @@ public class FriendGroupAdapter extends RecyclerView.Adapter<FriendGroupAdapter.
 //    FirebaseDatabase database;
 
     Date date = new Date();
-
-
 
     public FriendGroupAdapter(ArrayList<Friends> list, Context context) {
         this.listfg = list;
@@ -63,9 +67,10 @@ public class FriendGroupAdapter extends RecyclerView.Adapter<FriendGroupAdapter.
     public void onBindViewHolder(FriendGroupAdapter.ViewHolderFriendGroup holder, int position) {
         DatabaseReference reference;
         FirebaseAuth auth;
-        FirebaseDatabase database, database1;
+        FirebaseDatabase database, database1, database4;
         database = FirebaseDatabase.getInstance();
         database1 = FirebaseDatabase.getInstance();
+        database4 = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
         final String uId = auth.getUid();
         Friends friends = listfg.get(position);
@@ -109,31 +114,47 @@ public class FriendGroupAdapter extends RecyclerView.Adapter<FriendGroupAdapter.
         hashMap1.put("GroupName", groupChat.getGroupId());
         hashMap1.put("Timestamp", groupChat.getTimestamp().toString());
 
+        UserGroup userGroup1 = new UserGroup(uId, idGroup);
+
         database.getReference()
                 .child("GroupChat")
-                .child(returnData())
+                .child(idGroup)
                 .setValue(hashMap1);
 
         database1.getReference()
                 .child("GroupChat")
-                .child(returnData())
+                .child(idGroup)
                 .child("Paticipant")
                 .child(uId)
                 .setValue(hashMap2);
+        database4.getReference()
+                .child("UserGroup")
+                .child(uId)
+                .child(idGroup)
+                .setValue(userGroup1);
+
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseDatabase database, database1;
-                database = FirebaseDatabase.getInstance();
+                FirebaseDatabase database3, database1;
+                database3 = FirebaseDatabase.getInstance();
                 database1 = FirebaseDatabase.getInstance();
+
+                UserGroup userGroup = new UserGroup(participant.getUserId(),idGroup);
 
                 database1.getReference()
                         .child("GroupChat")
-                        .child(returnData())
+                        .child(idGroup)
                         .child("Paticipant")
                         .child(participant.getUserId())
                         .setValue(hashMap);
+                database3.getReference()
+                        .child("UserGroup")
+                        .child(participant.getUserId())
+                        .child(idGroup)
+                        .setValue(userGroup);
 
                 member = member +friends.getNameFriend();
                 Toast.makeText(context, "Thêm thành công thành công!!! "+ friends.getNameFriend(), Toast.LENGTH_SHORT).show();
@@ -163,9 +184,7 @@ public class FriendGroupAdapter extends RecyclerView.Adapter<FriendGroupAdapter.
         }
 
     }
-    public static String returnData() {
-        return idGroup;
-    }
+
 
 
 

@@ -26,10 +26,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static com.example.mymessage.Function.RandomString.randomAlphaNumeric;
+
 public class CreateGroupChat extends AppCompatActivity {
     ActivityCreateGroupChatBinding binding;
     FirebaseDatabase database;
     FirebaseAuth auth;
+
+    public static String idGroup = randomAlphaNumeric(16);
 //    ArrayList<Friends> listfg = new ArrayList<>();
 
 
@@ -101,8 +105,9 @@ public class CreateGroupChat extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CreateGroupChat.this, SettingGroupChat.class);
-                String groupId = FriendGroupAdapter.returnData();
-                intent.putExtra("GroupId", groupId);
+                intent.putExtra("GroupId", returnData());
+                onRestart();
+                idGroup = randomAlphaNumeric(16);
                 startActivity(intent);
             }
         });
@@ -110,5 +115,7 @@ public class CreateGroupChat extends AppCompatActivity {
 
     }
 
-
+    public static String returnData() {
+        return idGroup;
+    }
 }
