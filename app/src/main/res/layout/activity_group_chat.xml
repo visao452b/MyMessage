@@ -6,11 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.GroupChatActivity"
-    android:background="@color/chatbackground"
+    android:background="@drawable/bg"
     >
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/chatRecyclarView"
+        android:id="@+id/groupRecyclarView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"

@@ -16,7 +16,9 @@ import com.example.mymessage.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ChatAdapter extends  RecyclerView.Adapter{
 
@@ -67,7 +69,7 @@ public class ChatAdapter extends  RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         MessageModel messageModel = messageModels.get(position);
-
+//        Date date = new Date();
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -96,8 +98,14 @@ public class ChatAdapter extends  RecyclerView.Adapter{
 
         if (holder.getClass() == SenderViewVolder.class){
             ((SenderViewVolder)holder).senderMsg.setText(messageModel.getMessage());
+            long time = messageModel.getTimestamp();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+            ((SenderViewVolder)holder).senderTime.setText(dateFormat.format(new Date(time)));
         }else {
             ((ReceiverViewVolder)holder).receiverMsg.setText(messageModel.getMessage());
+            long time =messageModel.getTimestamp();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+            ((ReceiverViewVolder)holder).receiverTime.setText(dateFormat.format(new Date(time)));
         }
     }
 

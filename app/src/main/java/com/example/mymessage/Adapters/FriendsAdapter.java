@@ -34,8 +34,6 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
     DatabaseReference reference, reference2;
     FirebaseAuth auth;
 
-
-
     public FriendsAdapter(ArrayList<Friends> list, Context context) {
         this.list = list;
         this.context = context;

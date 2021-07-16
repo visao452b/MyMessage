@@ -47,10 +47,10 @@ public class GroupChatActivity extends AppCompatActivity {
         binding.userName.setText("Friends Group");
 
         final ChatAdapter adapter = new ChatAdapter(messageModels, this);
-        binding.chatRecyclarView.setAdapter(adapter);
+        binding.groupRecyclarView.setAdapter(adapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        binding.chatRecyclarView.setLayoutManager(layoutManager);
+        binding.groupRecyclarView.setLayoutManager(layoutManager);
 
         database.getReference().child("Group Chat")
                 .addValueEventListener(new ValueEventListener() {

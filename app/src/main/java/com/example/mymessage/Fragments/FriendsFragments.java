@@ -44,6 +44,7 @@ public class FriendsFragments extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding =FragmentFriendsBinding.inflate(inflater, container, false);
+
         FriendsAdapter adapter = new FriendsAdapter(list, getContext());
         binding.friendsRecyclarView.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());

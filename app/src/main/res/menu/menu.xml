@@ -11,8 +11,8 @@
         ></item>
 
     <item
-        android:id="@+id/groupChat"
-        android:title="Public Chat"
+        android:id="@+id/createGroupChat"
+        android:title="Create Group Chat"
         ></item>
 
     <item
