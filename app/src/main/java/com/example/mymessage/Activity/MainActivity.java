@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent4);
                 break;
 
-            case R.id.groupChat:
-                Intent intent2 = new Intent(this, GroupChatActivity.class);
+            case R.id.createGroupChat:
+                Intent intent2 = new Intent(this, CreateGroupChat.class);
                 startActivity(intent2);
                 break;
 
