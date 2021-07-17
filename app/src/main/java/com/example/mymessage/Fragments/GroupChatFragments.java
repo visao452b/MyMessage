@@ -3,64 +3,69 @@ package com.example.mymessage.Fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.mymessage.Adapters.GroupAdapter;
+import com.example.mymessage.Models.Friends;
+import com.example.mymessage.Models.UserGroup;
 import com.example.mymessage.R;
+import com.example.mymessage.databinding.FragmentGroupChatBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link GroupChatFragments#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+
 public class GroupChatFragments extends Fragment {
+    FragmentGroupChatBinding binding;
+    ArrayList<UserGroup> list = new ArrayList<>();
+    FirebaseDatabase database;
+    FirebaseAuth auth;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public GroupChatFragments() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CallsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static GroupChatFragments newInstance(String param1, String param2) {
-        GroupChatFragments fragment = new GroupChatFragments();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        binding = FragmentGroupChatBinding.inflate(inflater, container,false);
+        GroupAdapter adapter = new GroupAdapter(list, getContext());
+        binding.groupRecyclarView.setAdapter(adapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        binding.groupRecyclarView.setLayoutManager(layoutManager);
+        auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        final String uId = auth.getUid();
+
+        database.getReference().child("UserGroup").child(uId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                list.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    UserGroup userGroup = dataSnapshot.getValue(UserGroup.class);
+                    list.add(userGroup);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+            }
+        });
+
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_friends, container, false);
+        return inflater.inflate(R.layout.fragment_group_chat, container, false);
     }
 }

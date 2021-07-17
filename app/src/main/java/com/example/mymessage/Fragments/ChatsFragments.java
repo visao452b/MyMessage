@@ -114,8 +114,6 @@ public class ChatsFragments extends Fragment {
 
     FragmentChatsBinding binding;
     ArrayList<Users> list = new ArrayList<>();
-
-
     ArrayList<Friends> listFriend = new ArrayList<>();
 
     FirebaseDatabase database;

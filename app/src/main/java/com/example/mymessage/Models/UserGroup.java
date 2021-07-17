@@ -1,14 +1,14 @@
 package com.example.mymessage.Models;
 
 public class UserGroup {
-    String userId, groupUserId;
+    String userId, groupId;
 
     public UserGroup() {
     }
 
     public UserGroup(String userId, String groupUserId) {
         this.userId = userId;
-        this.groupUserId = groupUserId;
+        this.groupId = groupUserId;
     }
 
     public String getUserId() {
@@ -19,11 +19,11 @@ public class UserGroup {
         this.userId = userId;
     }
 
-    public String getGroupUserId() {
-        return groupUserId;
+    public String getGroupId() {
+        return groupId;
     }
 
-    public void setGroupUserId(String groupUserId) {
-        this.groupUserId = groupUserId;
+    public void setGroupId(String groupUserId) {
+        this.groupId = groupUserId;
     }
 }
