@@ -1,6 +1,7 @@
 package com.example.mymessage.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.mymessage.Activity.ChatDetailActivity;
+import com.example.mymessage.Activity.GroupChatActivity;
 import com.example.mymessage.Models.UserGroups;
 import com.example.mymessage.R;
 
@@ -42,6 +45,20 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
         UserGroups userGroups = list.get(position);
 
         holder.groupName.setText(userGroups.getGroupName());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ((userGroups.getGroupName()!= null) &&(userGroups.getGroupId()!=null)){
+                    Intent intent = new Intent(context, GroupChatActivity.class);
+                    intent.putExtra("groupId", userGroups.getGroupId());
+                    intent.putExtra("groupName", userGroups.getGroupName());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+
+                }
+            }
+        });
 
 
 

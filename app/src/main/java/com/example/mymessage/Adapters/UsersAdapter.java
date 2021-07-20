@@ -113,4 +113,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder>{
             msgTime = itemView.findViewById(R.id.msgTime);
         }
     }
+
+
 }

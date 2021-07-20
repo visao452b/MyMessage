@@ -1,5 +1,7 @@
 package com.example.mymessage.Models;
 
+import java.security.PublicKey;
+
 public class MessageModel {
     private String messageId, message, senderId, imageUrl;
     private long timestamp;
@@ -9,6 +11,13 @@ public class MessageModel {
     }
 
     public MessageModel(String message, String senderId, long timestamp) {
+        this.message = message;
+        this.senderId = senderId;
+        this.timestamp = timestamp;
+    }
+
+    public MessageModel(Integer feeling, String message, String senderId, Long timestamp) {
+        this.feeling = feeling;
         this.message = message;
         this.senderId = senderId;
         this.timestamp = timestamp;

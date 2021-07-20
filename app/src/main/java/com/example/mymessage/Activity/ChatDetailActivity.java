@@ -67,6 +67,7 @@ public class ChatDetailActivity extends AppCompatActivity {
             }
         });
 
+
         final ArrayList<MessageModel> messageModels = new ArrayList<>();
 
         final ChatAdapter chatAdapter = new ChatAdapter(messageModels, this, recieveId);

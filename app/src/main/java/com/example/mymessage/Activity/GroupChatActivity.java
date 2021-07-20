@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.mymessage.Adapters.ChatAdapter;
+import com.example.mymessage.Adapters.ChatGroupAdapter;
 import com.example.mymessage.Models.MessageModel;
 import com.example.mymessage.databinding.ActivityGroupChatBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -23,6 +24,10 @@ import java.util.Date;
 
 public class GroupChatActivity extends AppCompatActivity {
     ActivityGroupChatBinding binding;
+    FirebaseDatabase database;
+    FirebaseAuth auth;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +36,19 @@ public class GroupChatActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         getSupportActionBar().hide();
+
+        String  groupId = getIntent().getStringExtra("groupId");
+        String groupName = getIntent().getStringExtra("groupName");
+
+        database = FirebaseDatabase.getInstance();
+        auth = FirebaseAuth.getInstance();
         Date date = new Date();
-        binding.backArrow.setOnClickListener(new View.OnClickListener() {
+
+
+
+        binding.groupNameChatGroup.setText(groupName);
+
+        binding.backArrowChatGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GroupChatActivity.this, MainActivity.class);
@@ -40,30 +56,35 @@ public class GroupChatActivity extends AppCompatActivity {
             }
         });
 
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final ArrayList<MessageModel> messageModels = new ArrayList<>();
 
-        final String senderID = FirebaseAuth.getInstance().getUid();
-        binding.userName.setText("Friends Group");
+        final ChatGroupAdapter adapter= new ChatGroupAdapter(messageModels, this);
 
-        final ChatAdapter adapter = new ChatAdapter(messageModels, this);
-        binding.groupRecyclarView.setAdapter(adapter);
+        binding.chatGroupRecyclarView.setAdapter(adapter);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        binding.groupRecyclarView.setLayoutManager(layoutManager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        binding.chatGroupRecyclarView.setLayoutManager(linearLayoutManager);
 
-        database.getReference().child("Group Chat")
+        final String senderId = auth.getUid();
+        final String room = groupId;
+
+        database.getReference().child("chats")
+                .child(room)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                         messageModels.clear();
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                            MessageModel model = dataSnapshot.getValue(MessageModel.class);
+
+                        for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                            MessageModel model = snapshot1.getValue(MessageModel.class);
+
+                            model.setMessageId(snapshot1.getKey());
+
                             messageModels.add(model);
                         }
 
                         adapter.notifyDataSetChanged();
-
 
                     }
 
@@ -73,24 +94,54 @@ public class GroupChatActivity extends AppCompatActivity {
                     }
                 });
 
-        binding.send.setOnClickListener(new View.OnClickListener() {
+        binding.sendChatGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String message = binding.edtMessage.getText().toString();
-                final MessageModel model =  new MessageModel(message, senderID, date.getTime());
+                final String message = binding.edtMessageChatGroup.getText().toString();
+                final MessageModel model = new MessageModel(message, auth.getUid(), date.getTime());
                 model.setTimestamp(new Date().getTime());
-                binding.edtMessage.setText("");
+                binding.edtMessageChatGroup.setText("");
 
-                database.getReference().child("Group Chat")
+                database.getReference().child("chats")
+                        .child(room)
                         .push()
-                        .setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        .setValue(model)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-
+//                        database.getReference().child("chats")
+//                                .child(room)
+//                                .push()
+//                                .setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void unused) {
+//
+//                            }
+//                        });
                     }
                 });
             }
         });
+
+
+
+
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String currentId = FirebaseAuth.getInstance().getUid();
+        database.getReference().child("presence").child(currentId).setValue("Online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        String currentId = FirebaseAuth.getInstance().getUid();
+        database.getReference().child("presence").child(currentId).setValue("Offline");
     }
 
 
