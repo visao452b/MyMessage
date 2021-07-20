@@ -104,7 +104,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder>{
         TextView userName, lassMessage, msgTime;
 
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
 
             image = itemView.findViewById(R.id.profile_image);

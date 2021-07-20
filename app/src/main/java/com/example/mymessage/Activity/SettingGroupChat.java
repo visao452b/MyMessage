@@ -1,74 +1,105 @@
 package com.example.mymessage.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.LinearLayout;
 
-import com.example.mymessage.Fragments.GroupChatFragments;
-import com.example.mymessage.Models.GroupChat;
-import com.example.mymessage.Models.Image;
-import com.example.mymessage.Models.Users;
+import com.example.mymessage.Adapters.FriendGroupAdapter;
+import com.example.mymessage.Function.RandomString;
+import com.example.mymessage.Models.Friends;
 import com.example.mymessage.R;
 import com.example.mymessage.databinding.ActivitySettingGroupChatBinding;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.Date;
+
+import static com.example.mymessage.Function.RandomString.randomAlphaNumeric;
 
 public class SettingGroupChat extends AppCompatActivity {
 
     ActivitySettingGroupChatBinding binding;
-    FirebaseDatabase database;
-    FirebaseAuth auth;
     FirebaseStorage storage;
+    FirebaseAuth auth;
+    FirebaseDatabase database, database1, database2;
+//    public static String idGroup = randomAlphaNumeric(16);
 
 
+    Intent intent = getIntent();
+//    String goupId = intent.getStringExtra("groupId");
+//    String groupName = intent.getStringExtra("groupName");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_setting_group_chat);
         binding = ActivitySettingGroupChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        getSupportActionBar().hide();
 
+        storage = FirebaseStorage.getInstance();
+        auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-
-        Intent intent2 = getIntent();
-        String groupId = intent2.getStringExtra("GroupId");
-
+        database1 = FirebaseDatabase.getInstance();
+        database2 = FirebaseDatabase.getInstance();
 
 
-        binding.nextSettingGroupChat.setOnClickListener(new View.OnClickListener() {
+        String uId = auth.getUid();
+        Date date = new Date();
+
+        final ArrayList<Friends> friendsArrayList = new ArrayList<>();
+        final FriendGroupAdapter friendGroupAdapter = new FriendGroupAdapter(friendsArrayList, getApplicationContext());
+
+        binding.settingGroupChatRecyclarView.setAdapter(friendGroupAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        binding.settingGroupChatRecyclarView.setLayoutManager(linearLayoutManager);
+
+//        idGroup = randomAlphaNumeric(16);
+
+//        binding.groupNameSetting.setText(groupName);
+
+        database.getReference().child("Friends").child(uId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                friendsArrayList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Friends friends = dataSnapshot.getValue(Friends.class);
+                    friendsArrayList.add(friends);
+                }
+                friendGroupAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+            }
+        });
+
+
+        binding.nextCreateGroupchat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String nameGroup =  binding.edtNameGroupSetting.getText().toString();
-                database.getReference()
-                        .child("GroupChat")
-                        .child(groupId)
-                        .child("GroupName")
-                        .setValue(binding.edtNameGroupSetting.getText().toString());
-                Toast.makeText(SettingGroupChat.this, "Nhóm "+ nameGroup + " đã được tạo", Toast.LENGTH_SHORT).show();
 
                 Intent intent2 = new Intent(SettingGroupChat.this, MainActivity.class);
+//                String groupId = FriendGroupAdapter.returnData();
+//                idGroup = RandomString.randomAlphaNumeric(16);
+//                intent.putExtra("GroupId", groupId);
                 startActivity(intent2);
             }
         });
 
 
 
+
+
+
     }
-
-
 }

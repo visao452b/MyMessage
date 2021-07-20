@@ -39,6 +39,7 @@ public class FindFriends extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityFindFriendsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         database =FirebaseDatabase.getInstance();
         reference = FirebaseDatabase.getInstance().getReference();
         auth = FirebaseAuth.getInstance();

@@ -16,6 +16,11 @@
         ></item>
 
     <item
+        android:id="@+id/GroupChat"
+        android:title="Group Chat"
+        ></item>
+
+    <item
         android:id="@+id/logout"
         android:title="Logout"
         ></item>

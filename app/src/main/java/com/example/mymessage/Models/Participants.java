@@ -1,15 +1,16 @@
 package com.example.mymessage.Models;
 
-public class Participant {
-    String role, userId;
+public class Participants {
+    String role, userId, userName;
     Long timestamp;
 
-    public Participant() {
+    public Participants() {
     }
 
-    public Participant(String role, String userId, Long timestamp) {
+    public Participants(String role, String userId, String userName, Long timestamp) {
         this.role = role;
         this.userId = userId;
+        this.userName = userName;
         this.timestamp = timestamp;
     }
 
@@ -27,6 +28,14 @@ public class Participant {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Long getTimestamp() {

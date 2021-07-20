@@ -16,6 +16,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import static com.example.mymessage.Function.RandomString.randomAlphaNumeric;
+
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
         binding.viewPager.setAdapter(new FragmentsAdapter(getSupportFragmentManager()));
         binding.tablayout.setupWithViewPager(binding.viewPager);
+
+//        String idGroup = randomAlphaNumeric(16);
 
     }
 
@@ -63,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.createGroupChat:
                 Intent intent2 = new Intent(this, CreateGroupChat.class);
                 startActivity(intent2);
+                break;
+            case R.id.GroupChat:
+                Intent intent5 = new Intent(this, ShowGroupChat.class);
+                startActivity(intent5);
                 break;
 
             case R.id.logout:

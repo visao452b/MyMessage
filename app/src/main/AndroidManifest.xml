@@ -9,9 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyMessage">
-        <activity android:name=".Activity.ShowGroupChat"></activity>
-        <activity android:name=".Activity.SettingGroupChat" />
+        <activity android:name=".Activity.SettingGroupChat"></activity>
         <activity android:name=".Activity.CreateGroupChat" />
+        <activity android:name=".Activity.ShowGroupChat" />
         <activity android:name=".Activity.FindFriends" />
         <activity android:name=".Activity.ResetPassword" />
         <activity android:name=".Activity.SettingsActivity" />
