@@ -40,6 +40,7 @@ public class GroupChatActivity extends AppCompatActivity {
         String  groupId = getIntent().getStringExtra("groupId");
         String groupName = getIntent().getStringExtra("groupName");
 
+
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
         Date date = new Date();
@@ -51,7 +52,7 @@ public class GroupChatActivity extends AppCompatActivity {
         binding.backArrowChatGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GroupChatActivity.this, MainActivity.class);
+                Intent intent = new Intent(GroupChatActivity.this, ShowGroupChat.class);
                 startActivity(intent);
             }
         });
@@ -142,6 +143,10 @@ public class GroupChatActivity extends AppCompatActivity {
         super.onPause();
         String currentId = FirebaseAuth.getInstance().getUid();
         database.getReference().child("presence").child(currentId).setValue("Offline");
+    }
+
+    public String roomId(){
+        return roomId();
     }
 
 

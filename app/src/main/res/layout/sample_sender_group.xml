@@ -13,13 +13,15 @@
         android:background="@drawable/bg_sender"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:minWidth="70dp"
+        >
 
         <TextView
             android:id="@+id/nameSenderChatGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="10dp"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -27,6 +29,7 @@
             android:id="@+id/view7"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginRight="10dp"
             android:background="#83303030" />
 
         <ImageView
@@ -43,12 +46,23 @@
             android:id="@+id/senderTextChatGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxWidth="300dp"
             android:paddingLeft="15dp"
             android:paddingTop="5dp"
             android:paddingRight="10dp"
             android:paddingBottom="5dp"
             android:text="TextView"
             android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/senderTimeGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            android:text="12:00pm"
+            android:textSize="10sp" />
     </LinearLayout>
 
     <ImageView

@@ -88,7 +88,7 @@ public class SettingGroupChat extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent2 = new Intent(SettingGroupChat.this, MainActivity.class);
+                Intent intent2 = new Intent(SettingGroupChat.this, ShowGroupChat.class);
 //                String groupId = FriendGroupAdapter.returnData();
 //                idGroup = RandomString.randomAlphaNumeric(16);
 //                intent.putExtra("GroupId", groupId);

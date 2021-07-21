@@ -8,12 +8,14 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_sender"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:minWidth="70dp"
+        android:maxWidth="200dp">
 
         <ImageView
             android:id="@+id/imageSender"
@@ -28,13 +30,14 @@
         <TextView
             android:id="@+id/senderText"
             android:layout_width="wrap_content"
+            android:maxWidth="300dp"
             android:layout_height="wrap_content"
+            android:text="avdsvc yfgadsygf da gfsadybvdsubduc udscusdhs usadh ygfs dsgf sygdfsdgf  sdyafgds sydagf "
             android:layout_marginRight="10dp"
             android:paddingLeft="15dp"
             android:paddingTop="5dp"
             android:paddingRight="10dp"
             android:paddingBottom="5dp"
-            android:text="TextView"
             android:textSize="15dp" />
 
         <TextView

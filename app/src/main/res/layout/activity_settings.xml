@@ -125,74 +125,95 @@
         android:orientation="vertical"
         android:padding="40dp">
 
-        <TextView
-            android:id="@+id/textView3"
+        <ImageView
+            android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:drawableLeft="@drawable/ic_privacy"
-            android:drawablePadding="15dp"
-            android:padding="10dp"
-            android:text="Privacy Policy"
-            android:textColor="@color/black"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            app:drawableTint="@color/colorPrimary" />
+            android:layout_height="100dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:contentDescription="TODO"
+            app:srcCompat="@drawable/ic_logo"
+            tools:ignore="VectorDrawableCompat" />
 
         <TextView
-            android:id="@+id/textView4"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:drawableLeft="@drawable/ic_about"
-            android:drawablePadding="15dp"
-            android:padding="10dp"
-            android:text="About Us"
-            android:textColor="@color/black"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            app:drawableTint="@color/colorPrimary" />
+            android:layout_gravity="center"
+            android:text="My Message"
+            android:textColor="@color/colorPrimary"
+            android:textSize="30dp"
+            android:textStyle="bold">
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:drawableLeft="@drawable/ic_users"
-            android:drawablePadding="15dp"
-            android:padding="10dp"
-            android:text="Invite Friend"
-            android:textColor="@color/black"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            app:drawableTint="@color/colorPrimary" />
+        </TextView>
 
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:drawableLeft="@drawable/ic_notification"
-            android:drawablePadding="15dp"
-            android:padding="10dp"
-            android:text="Notification"
-            android:textColor="@color/black"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            app:drawableTint="@color/colorPrimary" />
+<!--        <TextView-->
+<!--            android:id="@+id/textView3"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="50dp"-->
+<!--            android:drawableLeft="@drawable/ic_privacy"-->
+<!--            android:drawablePadding="15dp"-->
+<!--            android:padding="10dp"-->
+<!--            android:text="Privacy Policy"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="18dp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:drawableTint="@color/colorPrimary" />-->
 
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:drawableLeft="@drawable/ic_help"
-            android:drawablePadding="15dp"
-            android:padding="10dp"
-            android:text="Help"
-            android:textColor="@color/black"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            app:drawableTint="@color/colorPrimary" />
+<!--        <TextView-->
+<!--            android:id="@+id/textView4"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="50dp"-->
+<!--            android:drawableLeft="@drawable/ic_about"-->
+<!--            android:drawablePadding="15dp"-->
+<!--            android:padding="10dp"-->
+<!--            android:text="About Us"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="18dp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:drawableTint="@color/colorPrimary" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView5"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="50dp"-->
+<!--            android:drawableLeft="@drawable/ic_users"-->
+<!--            android:drawablePadding="15dp"-->
+<!--            android:padding="10dp"-->
+<!--            android:text="Invite Friend"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="18dp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:drawableTint="@color/colorPrimary" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView6"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="50dp"-->
+<!--            android:drawableLeft="@drawable/ic_notification"-->
+<!--            android:drawablePadding="15dp"-->
+<!--            android:padding="10dp"-->
+<!--            android:text="Notification"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="18dp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:drawableTint="@color/colorPrimary" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView7"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="50dp"-->
+<!--            android:drawableLeft="@drawable/ic_help"-->
+<!--            android:drawablePadding="15dp"-->
+<!--            android:padding="10dp"-->
+<!--            android:text="Help"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="18dp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:drawableTint="@color/colorPrimary" />-->
     </LinearLayout>
 </RelativeLayout>

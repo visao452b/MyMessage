@@ -12,9 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mymessage.Models.MessageModel;
+import com.example.mymessage.Models.Users;
 import com.example.mymessage.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,7 +28,9 @@ public class ChatGroupAdapter extends  RecyclerView.Adapter{
 
     ArrayList<MessageModel> messageModels;
     Context context;
-    String recId;
+//    String recId;
+FirebaseDatabase database;
+    FirebaseAuth auth;
 
     int SENDER_VIEW_TYPE = 1;
     int RECEIVER_VIEW_TYPE = 2;
@@ -34,11 +40,11 @@ public class ChatGroupAdapter extends  RecyclerView.Adapter{
         this.context = context;
     }
 
-    public ChatGroupAdapter(ArrayList<MessageModel> messageModels, Context context, String recId) {
-        this.messageModels = messageModels;
-        this.context = context;
-        this.recId = recId;
-    }
+//    public ChatGroupAdapter(ArrayList<MessageModel> messageModels, Context context, String recId) {
+//        this.messageModels = messageModels;
+//        this.context = context;
+//        this.recId = recId;
+//    }
 
     @NonNull
     @Override
@@ -69,47 +75,69 @@ public class ChatGroupAdapter extends  RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         MessageModel messageModel = messageModels.get(position);
-//        Date date = new Date();
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                new AlertDialog.Builder(context)
-                        .setTitle("Delete")
-                        .setMessage("Are you sure you want delete this message")
-                        .setPositiveButton("yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                FirebaseDatabase database= FirebaseDatabase.getInstance();
-                                String senderRoom = FirebaseAuth.getInstance().getUid() + recId;
-                                database.getReference().child("chats").child(senderRoom)
-                                        .child(messageModel.getMessageId())
-                                        .setValue(null);
-                            }
-                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
+        auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        final String uId = auth.getUid();
 
-                return false;
+
+        database.getReference().child("Users").child(messageModel.getSenderId()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Users users = snapshot.getValue(Users.class);
+                users.setUserId(snapshot.getKey());
+
+                if (messageModel.getSenderId().equals(users.getUserId())){
+                   String userName = users.getUserName();
+                    if (holder.getClass() == SenderViewVolder.class){
+                        ((SenderViewVolder)holder).senderMsg.setText(messageModel.getMessage());
+                        ((SenderViewVolder)holder).nameSender.setText(userName);
+
+                        long time = messageModel.getTimestamp();
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+                        ((SenderViewVolder)holder).senderTimeGroup.setText(dateFormat.format(new Date(time)));
+                    }else {
+                        ((ReceiverViewVolder)holder).receverMsg.setText(messageModel.getMessage());
+                        ((ReceiverViewVolder)holder).nameReciver.setText(userName);
+                        long time =messageModel.getTimestamp();
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+                        ((ReceiverViewVolder)holder).reciverTimeGroup.setText(dateFormat.format(new Date(time)));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+
             }
         });
+//        Date date = new Date();
+//        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                new AlertDialog.Builder(context)
+//                        .setTitle("Delete")
+//                        .setMessage("Are you sure you want delete this message")
+//                        .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                FirebaseDatabase database= FirebaseDatabase.getInstance();
+//                                String senderRoom = FirebaseAuth.getInstance().getUid() + recId;
+//                                database.getReference().child("chats").child(senderRoom)
+//                                        .child(messageModel.getMessageId())
+//                                        .setValue(null);
+//                            }
+//                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                }).show();
+//
+//                return false;
+//            }
+//        });
 
-        if (holder.getClass() == SenderViewVolder.class){
-            ((SenderViewVolder)holder).senderMsg.setText(messageModel.getMessage());
-            ((SenderViewVolder)holder).nameSender.setText(messageModel.getSenderId());
 
-//            long time = messageModel.getTimestamp();
-//            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
-//            ((SenderViewVolder)holder).senderMsg.setText(dateFormat.format(new Date(time)));
-        }else {
-            ((ReceiverViewVolder)holder).receverMsg.setText(messageModel.getMessage());
-            ((ReceiverViewVolder)holder).nameReciver.setText(messageModel.getSenderId());
-//            long time =messageModel.getTimestamp();
-//            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
-//            ((ReceiverViewVolder)holder).receiverTime.setText(dateFormat.format(new Date(time)));
-        }
     }
 
     @Override
@@ -119,12 +147,12 @@ public class ChatGroupAdapter extends  RecyclerView.Adapter{
 
     public class ReceiverViewVolder extends RecyclerView.ViewHolder {
 
-        TextView receverMsg, nameReciver;
+        TextView receverMsg, nameReciver, reciverTimeGroup;
 
 
         public ReceiverViewVolder(@NonNull View itemView) {
             super(itemView);
-
+            reciverTimeGroup = itemView.findViewById(R.id.reciverTimeGroup);
             receverMsg = itemView.findViewById(R.id.reicverTextChatGroup);
             nameReciver = itemView.findViewById(R.id.nameReciverChatGroup);
 
@@ -134,11 +162,11 @@ public class ChatGroupAdapter extends  RecyclerView.Adapter{
 
     public class SenderViewVolder extends RecyclerView.ViewHolder {
 
-        TextView senderMsg, nameSender;
+        TextView senderMsg, nameSender, senderTimeGroup;
 
         public SenderViewVolder(@NonNull View itemView) {
             super(itemView);
-
+            senderTimeGroup = itemView.findViewById(R.id.senderTimeGroup);
             senderMsg = itemView.findViewById(R.id.senderTextChatGroup);
             nameSender = itemView.findViewById(R.id.nameSenderChatGroup);
 

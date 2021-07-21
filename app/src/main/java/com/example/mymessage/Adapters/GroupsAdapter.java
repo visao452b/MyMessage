@@ -16,15 +16,23 @@ import com.example.mymessage.Activity.ChatDetailActivity;
 import com.example.mymessage.Activity.GroupChatActivity;
 import com.example.mymessage.Models.UserGroups;
 import com.example.mymessage.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder>{
 
     ArrayList<UserGroups> list;
     Context context;
+
 
     public GroupsAdapter(ArrayList<UserGroups> list, Context context) {
         this.list = list;
@@ -46,6 +54,31 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
 
         holder.groupName.setText(userGroups.getGroupName());
 
+        FirebaseDatabase.getInstance().getReference().child("chats")
+                .child(userGroups.getGroupId())
+                .orderByChild("timestamp")
+                .limitToLast(1)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        if (snapshot.hasChildren()){
+                            for (DataSnapshot snapshot1 : snapshot.getChildren()){
+                                holder.lassMg.setText(snapshot1.child("message").getValue().toString());
+                                long time = snapshot1.child("timestamp").getValue(Long.class);
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                                holder.mgTime.setText(dateFormat.format(new Date(time)));
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+
+                    }
+                });
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,6 +95,8 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
 
 
 
+
+
     }
 
     @Override
@@ -71,10 +106,12 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView image;
-        TextView groupName;
+        TextView groupName, lassMg, mgTime;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            lassMg = itemView.findViewById(R.id.lastMessageGroup);
+            mgTime = itemView.findViewById(R.id.msgTimeGroup);
 
             image = itemView.findViewById(R.id.profile_image_group);
             groupName = itemView.findViewById(R.id.groupName);
