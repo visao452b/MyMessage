@@ -2,6 +2,9 @@ package com.example.mymessage.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -11,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.mymessage.Adapters.ChatAdapter;
 import com.example.mymessage.Adapters.ChatGroupAdapter;
 import com.example.mymessage.Models.MessageModel;
+import com.example.mymessage.R;
 import com.example.mymessage.databinding.ActivityGroupChatBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -124,11 +128,6 @@ public class GroupChatActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
     }
 
     @Override
@@ -145,9 +144,10 @@ public class GroupChatActivity extends AppCompatActivity {
         database.getReference().child("presence").child(currentId).setValue("Offline");
     }
 
-    public String roomId(){
-        return roomId();
-    }
+
+//    public String roomId(){
+//        return roomId();
+//    }
 
 
 }

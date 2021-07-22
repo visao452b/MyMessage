@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mymessage.Activity.ChatDetailActivity;
 import com.example.mymessage.Activity.MainActivity;
+import com.example.mymessage.Models.Friends;
 import com.example.mymessage.Models.Users;
 import com.example.mymessage.R;
 import com.example.mymessage.databinding.ActivityMainBinding;
@@ -35,6 +36,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder>{
 
     ArrayList<Users> list;
     Context context;
+    FirebaseDatabase database;
+    FirebaseAuth auth;
 
     public UsersAdapter(ArrayList<Users> list, Context context) {
         this.list = list;
@@ -53,6 +56,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull UsersAdapter.ViewHolder holder, int position) {
 
         Users users = list.get(position);
+        auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
 
         Picasso.get().load(users.getProfilepic()).placeholder(R.drawable.ic_avatar).into(holder.image);
         holder.userName.setText(users.getUserName());
@@ -68,9 +73,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder>{
                             for (DataSnapshot snapshot1 : snapshot.getChildren()){
                                 holder.lassMessage.setText(snapshot1.child("message").getValue().toString());
                                 long time = snapshot1.child("timestamp").getValue(Long.class);
-                                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm aaa");
                                 holder.msgTime.setText(dateFormat.format(new Date(time)));
-
                             }
                         }
                     }
@@ -80,6 +84,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder>{
 
                     }
                 });
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

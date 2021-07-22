@@ -19,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class GroupChatFragments extends Fragment {
+public class StoryFragments extends Fragment {
     FragmentGroupChatBinding binding;
 //    ArrayList<UserGroup> list = new ArrayList<>();
     FirebaseDatabase database;
@@ -27,7 +27,7 @@ public class GroupChatFragments extends Fragment {
 
 
 
-    public GroupChatFragments() {
+    public StoryFragments() {
         // Required empty public constructor
     }
 

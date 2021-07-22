@@ -8,13 +8,22 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.mymessage.Adapters.FragmentsAdapter;
+import com.example.mymessage.Adapters.UsersAdapter;
+import com.example.mymessage.Models.Friends;
+import com.example.mymessage.Models.Users;
 import com.example.mymessage.R;
 import com.example.mymessage.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import static com.example.mymessage.Function.RandomString.randomAlphaNumeric;
 
@@ -23,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     FirebaseDatabase database;
     FirebaseAuth auth;
+
+    ArrayList<Users> list = new ArrayList<>();
+    ArrayList<Friends> listFriend = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +52,20 @@ public class MainActivity extends AppCompatActivity {
 
 //        String idGroup = randomAlphaNumeric(16);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String currentId = FirebaseAuth.getInstance().getUid();
+        database.getReference().child("presence").child(currentId).setValue("Online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        String currentId = FirebaseAuth.getInstance().getUid();
+        database.getReference().child("presence").child(currentId).setValue("Offline");
     }
 
     @Override

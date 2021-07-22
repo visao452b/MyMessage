@@ -32,7 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="10dp"
-            android:background="@color/white"
+            android:background="@drawable/round_border"
+            android:drawableStart="@drawable/ic_id_name"
             android:ems="10"
             android:hint="User Name"
             android:inputType="textPersonName"
@@ -43,7 +44,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:background="@color/white"
+            android:background="@drawable/round_border"
+            android:drawableStart="@drawable/ic_email"
             android:ems="10"
             android:hint="Email"
             android:inputType="textEmailAddress"
@@ -53,7 +55,8 @@
             android:id="@+id/edtPasswordSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@drawable/round_border"
+            android:drawableStart="@drawable/ic_privacy"
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword"
@@ -66,7 +69,8 @@
             android:layout_gravity="right"
             android:gravity="right"
             android:padding="3dp"
-            android:text="Already have account" />
+            android:text="Already have account"
+            android:textColor="@color/colorPrimary" />
 
         <Button
             android:id="@+id/btnSignUp"

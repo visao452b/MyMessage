@@ -96,12 +96,16 @@ import com.example.mymessage.Adapters.UsersAdapter;
 import com.example.mymessage.Models.Friends;
 import com.example.mymessage.Models.Users;
 import com.example.mymessage.databinding.FragmentChatsBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -128,12 +132,15 @@ public class ChatsFragments extends Fragment {
         binding = FragmentChatsBinding.inflate(inflater, container, false);
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
+//        database1 = FirebaseDatabase.getInstance();
+//        database2 = FirebaseDatabase.getInstance();
         final String uId = auth.getUid();
 
-        UsersAdapter adapter = new UsersAdapter(list, getContext());
-        binding.chatRecyclarView.setAdapter(adapter);
+        UsersAdapter adapter1 = new UsersAdapter(list, getContext());
+        binding.chatRecyclarView.setAdapter(adapter1);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         binding.chatRecyclarView.setLayoutManager(layoutManager);
+
 
         database.getReference().child("Friends").child(uId).addValueEventListener(new ValueEventListener() {
             @Override
@@ -151,12 +158,12 @@ public class ChatsFragments extends Fragment {
             }
         });
 
-
         database.getReference().child("Users").addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
+
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Users users = dataSnapshot.getValue(Users.class);
                     users.setUserId(dataSnapshot.getKey());
@@ -172,7 +179,7 @@ public class ChatsFragments extends Fragment {
                         }
                     }
                 }
-                adapter.notifyDataSetChanged();
+                adapter1.notifyDataSetChanged();
             }
 
             @Override

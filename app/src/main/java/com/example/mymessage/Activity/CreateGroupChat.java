@@ -119,7 +119,15 @@ public class CreateGroupChat extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         groupId = RandomString.randomAlphaNumeric(16);
+        String currentId = FirebaseAuth.getInstance().getUid();
+        database.getReference().child("presence").child(currentId).setValue("Online");
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        String currentId = FirebaseAuth.getInstance().getUid();
+        database.getReference().child("presence").child(currentId).setValue("Offline");
     }
 
     public static String retunrStringGroup() {

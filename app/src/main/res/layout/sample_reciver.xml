@@ -10,17 +10,22 @@
         android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:background="@drawable/bg_reciver"
+        android:minWidth="70dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:minWidth="70dp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/imageReciver"
             android:layout_width="200dp"
             android:layout_height="130dp"
             android:layout_margin="5dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="5dp"
             android:scaleType="centerCrop"
             android:visibility="gone"
             app:srcCompat="@drawable/ic_avatar"
@@ -37,6 +42,7 @@
             android:paddingBottom="5dp"
             android:text=""
             android:textSize="13sp" />
+
         <TextView
             android:id="@+id/reciverTime"
             android:layout_width="wrap_content"
