@@ -34,12 +34,12 @@ import java.util.Date;
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder>{
 
 
-    ArrayList<Users> list;
+    ArrayList<Friends> list;
     Context context;
     FirebaseDatabase database;
     FirebaseAuth auth;
 
-    public UsersAdapter(ArrayList<Users> list, Context context) {
+    public UsersAdapter(ArrayList<Friends> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -55,15 +55,15 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull UsersAdapter.ViewHolder holder, int position) {
 
-        Users users = list.get(position);
+        Friends friend = list.get(position);
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
 
-        Picasso.get().load(users.getProfilepic()).placeholder(R.drawable.ic_avatar).into(holder.image);
-        holder.userName.setText(users.getUserName());
+        Picasso.get().load(friend.getProfilepic()).placeholder(R.drawable.ic_avatar).into(holder.image);
+        holder.userName.setText(friend.getNameFriend());
 
         FirebaseDatabase.getInstance().getReference().child("chats")
-                .child(FirebaseAuth.getInstance().getUid() + users.getUserId())
+                .child(FirebaseAuth.getInstance().getUid() + friend.getFriendId())
                 .orderByChild("timestamp")
                 .limitToLast(1)
                 .addValueEventListener(new ValueEventListener() {
@@ -90,9 +90,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder>{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ChatDetailActivity.class);
-                intent.putExtra("userId", users.getUserId());
-                intent.putExtra("profilePic", users.getProfilepic());
-                intent.putExtra("userName", users.getUserName());
+                intent.putExtra("userId", friend.getFriendId());
+                intent.putExtra("profilePic", friend.getProfilepic());
+                intent.putExtra("userName", friend.getNameFriend());
                 context.startActivity(intent);
             }
         });
