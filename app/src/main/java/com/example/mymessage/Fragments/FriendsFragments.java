@@ -24,6 +24,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 
@@ -52,6 +54,8 @@ public class FriendsFragments extends Fragment {
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         final String uId = auth.getUid();
+
+
 
         database.getReference().child("Friends").child(uId).addValueEventListener(new ValueEventListener() {
             @Override

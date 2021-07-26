@@ -2,6 +2,7 @@ package com.example.mymessage.Models;
 
 public class Friends {
     String nameFriend, emailFriend, friendId, profilepic;
+    Long msgTimeLast;
 
     public Friends() {
     }
@@ -11,6 +12,22 @@ public class Friends {
         this.emailFriend = emailFriend;
         this.friendId = friendId;
         this.profilepic = profilepic;
+    }
+
+    public Friends(String nameFriend, String emailFriend, Long msgTimeLast, String friendId, String profilepic) {
+        this.nameFriend = nameFriend;
+        this.emailFriend = emailFriend;
+        this.msgTimeLast = msgTimeLast;
+        this.friendId = friendId;
+        this.profilepic = profilepic;
+    }
+
+    public Long getMsgTimeLast() {
+        return msgTimeLast;
+    }
+
+    public void setMsgTimeLast(Long msgTimeLast) {
+        this.msgTimeLast = msgTimeLast;
     }
 
     public String getProfilepic() {

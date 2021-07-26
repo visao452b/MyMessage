@@ -48,16 +48,7 @@ tools:context=".Activity.CreateGroupChat">
 
     </LinearLayout>
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_imageCreateGroup"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginStart="10dp"
-        android:src="@drawable/ic_user"
-        android:layout_gravity="center"
-        app:civ_border_color="#FF000000"
-        app:civ_border_width="2dp"
-        />
+
 
 </LinearLayout>
 

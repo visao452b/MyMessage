@@ -1,9 +1,11 @@
 package com.example.mymessage.Activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,8 +15,11 @@ import com.example.mymessage.Function.RandomString;
 import com.example.mymessage.Models.Groups;
 import com.example.mymessage.Models.Participants;
 import com.example.mymessage.Models.UserGroups;
+import com.example.mymessage.Models.Users;
+import com.example.mymessage.R;
 import com.example.mymessage.databinding.ActivityCreateGroupChatBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -22,8 +27,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
+
+import static android.content.ContentValues.TAG;
 
 public class CreateGroupChat extends AppCompatActivity {
 
@@ -49,7 +61,6 @@ public class CreateGroupChat extends AppCompatActivity {
         String uId = auth.getUid();
         Date date = new Date();
 
-
         database.getReference().child("Users").child(uId).child("userName").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(Task<DataSnapshot> task) {
@@ -63,6 +74,8 @@ public class CreateGroupChat extends AppCompatActivity {
                     String userName = task.getResult().getValue().toString();
 
                     Participants participant = new Participants("admin", uId, userName, date.getTime());
+
+
 
                     binding.nextCreateGroupChat.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -109,11 +122,9 @@ public class CreateGroupChat extends AppCompatActivity {
             }
         });
 
-//
-//
-
 
     }
+
 
     @Override
     protected void onResume() {

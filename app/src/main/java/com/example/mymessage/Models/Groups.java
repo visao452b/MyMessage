@@ -1,7 +1,7 @@
 package com.example.mymessage.Models;
 
 public class Groups {
-    String groupId, groupName ,userIdCreated;
+    String groupId, groupName ,userIdCreated, profilepic;
     Long timestamp;
     Participants participants;
 
@@ -15,12 +15,29 @@ public class Groups {
         this.timestamp = timestamp;
     }
 
-    public Groups(String groupId, String groupName, String userIdCreated, Long timestamp, Participants participants) {
+//    public Groups(String groupId, String groupName, String userIdCreated, Long timestamp, Participants participants) {
+//        this.groupId = groupId;
+//        this.groupName = groupName;
+//        this.userIdCreated = userIdCreated;
+//        this.timestamp = timestamp;
+//        this.participants = participants;
+//    }
+
+
+    public Groups(String groupId, String groupName, String userIdCreated, String profilepic, Long timestamp) {
         this.groupId = groupId;
         this.groupName = groupName;
         this.userIdCreated = userIdCreated;
+        this.profilepic = profilepic;
         this.timestamp = timestamp;
-        this.participants = participants;
+    }
+
+    public String getProfilepic() {
+        return profilepic;
+    }
+
+    public void setProfilepic(String profilepic) {
+        this.profilepic = profilepic;
     }
 
     public String getGroupId() {

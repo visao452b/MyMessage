@@ -100,8 +100,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.logout:
-                auth.signOut();
-                Intent intent3 = new Intent(this, SignInActivity.class);
+                String currentId = FirebaseAuth.getInstance().getUid();
+//                database.getReference().child("presence").child(currentId).setValue("Offline");
+                Intent intent3 = new Intent(this, LogoutActivity.class);
                 startActivity(intent3);
                 break;
 

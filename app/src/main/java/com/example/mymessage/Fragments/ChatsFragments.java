@@ -27,7 +27,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
 
 
 public class ChatsFragments extends Fragment {
@@ -38,7 +42,7 @@ public class ChatsFragments extends Fragment {
 
     FragmentChatsBinding binding;
     ArrayList<Friends> list = new ArrayList<>();
-    ArrayList<Friends> listFriend = new ArrayList<>();
+    ArrayList<Friends> list1 = new ArrayList<>();
 
     FirebaseDatabase database;
     FirebaseAuth auth;
@@ -62,22 +66,33 @@ public class ChatsFragments extends Fragment {
         binding.chatRecyclarView.setLayoutManager(layoutManager);
 
 
-        database.getReference().child("Friends").child(uId).addValueEventListener(new ValueEventListener() {
+
+        database.getReference().child("Friends").child(uId).orderByChild("msgTimeLast").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot snapshot) {
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 list.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Friends friends = dataSnapshot.getValue(Friends.class);
                     list.add(friends);
                 }
+
+                Collections.reverse(list);
+
                 adapter1.notifyDataSetChanged();
             }
 
             @Override
-            public void onCancelled(DatabaseError error) {
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
             }
         });
+
+
+
+
+
+
+
 
         return binding.getRoot();
     }

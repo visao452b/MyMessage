@@ -43,11 +43,8 @@ public class ChatDetailActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseStorage storage;
     ProgressDialog dialog;
-
-    ChatAdapter adapter;
     ArrayList<MessageModel> messages;
 
-    ArrayList<UserStatus> userStatuses;
 
 
 
@@ -161,12 +158,19 @@ public class ChatDetailActivity extends AppCompatActivity {
                 String randomKey = database.getReference().push().getKey();
                 message.setMessageId(randomKey);
 
-//                HashMap<String, Object> lastMsgObj = new HashMap<>();
-//                lastMsgObj.put("lastMsg", message.getMessage());
-//                lastMsgObj.put("lastMsgTime", date.getTime());
-//
-//                database.getReference().child("chats").child(senderRoom).updateChildren(lastMsgObj);
-//                database.getReference().child("chats").child(receiverRoom).updateChildren(lastMsgObj);
+
+                database.getReference().child("Friends")
+                        .child(senderId)
+                        .child(recieveId)
+                        .child("msgTimeLast").setValue(message.getTimestamp()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        database.getReference().child("Friends")
+                                .child(recieveId)
+                                .child(senderId)
+                                .child("msgTimeLast").setValue(message.getTimestamp());
+                    }
+                });
 
                 database.getReference().child("chats")
                         .child(senderRoom)

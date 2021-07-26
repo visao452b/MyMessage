@@ -3,7 +3,9 @@ package com.example.mymessage.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.mymessage.Adapters.FriendGroupAdapter;
 import com.example.mymessage.Adapters.GroupsAdapter;
@@ -40,6 +42,14 @@ public class ShowGroupChat extends AppCompatActivity {
         binding.showGroupRecyclarView.setAdapter(groupsAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         binding.showGroupRecyclarView.setLayoutManager(linearLayoutManager);
+
+        binding.backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShowGroupChat.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         database.getReference().child("UserGroups").child(uId).addValueEventListener(new ValueEventListener() {
             @Override

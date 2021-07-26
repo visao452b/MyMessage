@@ -62,6 +62,28 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder>{
         Picasso.get().load(friend.getProfilepic()).placeholder(R.drawable.ic_avatar).into(holder.image);
         holder.userName.setText(friend.getNameFriend());
 
+        database.getReference().child("presence").child(friend.getFriendId()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()) {
+                    String status = snapshot.getValue(String.class);
+                    if(!status.isEmpty()) {
+                        if(status.equals("Offline")) {
+                            holder.status.setVisibility(View.GONE);
+                        } else {
+                            holder.status.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
         FirebaseDatabase.getInstance().getReference().child("chats")
                 .child(FirebaseAuth.getInstance().getUid() + friend.getFriendId())
                 .orderByChild("timestamp")
@@ -107,7 +129,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder>{
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView image;
+        ImageView image, status;
         TextView userName, lassMessage, msgTime;
 
 
@@ -118,6 +140,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder>{
             userName = itemView.findViewById(R.id.userNameList);
             lassMessage = itemView.findViewById(R.id.lastMessage);
             msgTime = itemView.findViewById(R.id.msgTime);
+            status = itemView.findViewById(R.id.statusUser);
         }
     }
 
