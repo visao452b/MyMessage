@@ -42,11 +42,9 @@ public class ChatsFragments extends Fragment {
 
     FragmentChatsBinding binding;
     ArrayList<Friends> list = new ArrayList<>();
-    ArrayList<Friends> list1 = new ArrayList<>();
 
     FirebaseDatabase database;
     FirebaseAuth auth;
-    Users me = new Users();
 //    ArrayList<Friends> friendsArrayList = new ArrayList<>();
 
     @Override
@@ -56,8 +54,7 @@ public class ChatsFragments extends Fragment {
         binding = FragmentChatsBinding.inflate(inflater, container, false);
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-//        database1 = FirebaseDatabase.getInstance();
-//        database2 = FirebaseDatabase.getInstance();
+
         final String uId = auth.getUid();
 
         UsersAdapter adapter1 = new UsersAdapter(list, getContext());

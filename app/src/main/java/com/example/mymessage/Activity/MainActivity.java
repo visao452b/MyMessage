@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.mymessage.Adapters.FragmentsAdapter;
+import com.example.mymessage.Adapters.TopStatusAdapter;
 import com.example.mymessage.Adapters.UsersAdapter;
 import com.example.mymessage.Models.Friends;
 import com.example.mymessage.Models.Users;
@@ -33,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase database;
     FirebaseAuth auth;
 
-    ArrayList<Users> list = new ArrayList<>();
-    ArrayList<Friends> listFriend = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
