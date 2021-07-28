@@ -11,10 +11,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.example.mymessage.Adapters.TopStatusAdapter;
 import com.example.mymessage.Models.Friends;
@@ -34,10 +35,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+
+import static android.content.ContentValues.TAG;
 
 public class StoryFragments extends Fragment {
 
@@ -65,6 +70,8 @@ public class StoryFragments extends Fragment {
         dialog.setMessage("Uploading Image...");
         dialog.setCancelable(false);
 
+        final String uId = auth.getUid();
+
         database.getReference().child("Users").child(FirebaseAuth.getInstance().getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -83,10 +90,28 @@ public class StoryFragments extends Fragment {
         userStatuses = new ArrayList<>();
         statusAdapter = new TopStatusAdapter(getContext(), userStatuses);
 
+
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
         binding.statusList.setLayoutManager(layoutManager);
         binding.statusList.setAdapter(statusAdapter);
+
+        database.getReference().child("Friends").child(uId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                list.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Friends friends = dataSnapshot.getValue(Friends.class);
+                    list.add(friends);
+                    Log.i(TAG,friends.getNameFriend());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+            }
+        });
 
         database.getReference().child("stories").orderByChild("lastUpdated").addValueEventListener(new ValueEventListener() {
             @Override
@@ -105,9 +130,13 @@ public class StoryFragments extends Fragment {
                             Status sampleStatus = statusSnapshot.getValue(Status.class);
                             statuses.add(sampleStatus);
                         }
-
                         status.setStatuses(statuses);
-                        userStatuses.add(status);
+
+                        for (int i = 0; i < list.size(); i++){
+                            if (list.get(i).getNameFriend().equals(status.getName())){
+                                userStatuses.add(status);
+                            }
+                        }
                     }
                     Collections.reverse(userStatuses);
 
@@ -120,6 +149,40 @@ public class StoryFragments extends Fragment {
 
             }
         });
+
+
+//        database.getReference().child("stories").orderByChild("lastUpdated").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if(snapshot.exists()) {
+//                    userStatuses.clear();
+//                    for(DataSnapshot storySnapshot : snapshot.getChildren()) {
+//                        UserStatus status = new UserStatus();
+//                        status.setName(storySnapshot.child("name").getValue(String.class));
+//                        status.setProfileImage(storySnapshot.child("profileImage").getValue(String.class));
+//                        status.setLastUpdated(storySnapshot.child("lastUpdated").getValue(Long.class));
+//
+//                        ArrayList<Status> statuses = new ArrayList<>();
+//
+//                        for(DataSnapshot statusSnapshot : storySnapshot.child("statuses").getChildren()) {
+//                            Status sampleStatus = statusSnapshot.getValue(Status.class);
+//                            statuses.add(sampleStatus);
+//                        }
+//
+//                        status.setStatuses(statuses);
+//                        userStatuses.add(status);
+//                    }
+//                    Collections.reverse(userStatuses);
+//
+//                    statusAdapter.notifyDataSetChanged();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
 
 

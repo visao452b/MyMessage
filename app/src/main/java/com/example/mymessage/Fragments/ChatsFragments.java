@@ -64,6 +64,8 @@ public class ChatsFragments extends Fragment {
 
 
 
+
+
         database.getReference().child("Friends").child(uId).orderByChild("msgTimeLast").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
