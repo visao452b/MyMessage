@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:orientation="vertical"
+    >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_imageShowUserPost"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="5dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_avatar"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="2dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/userNamePost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="User Name Post"
+                    android:textStyle="bold"
+                    android:textSize="25dp"/>
+
+                <TextView
+                    android:id="@+id/timePostStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="02:06 SA"
+                    android:textSize="15dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/contentPost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="- Tính đến chiều ngày 28/7, Việt Nam có tổng 2.207 ca nhập cảnh và 118.612 ca mắc trong nước. - Số ca mắc mới ghi nhận trong nước tính của đợt dịch kể từ 27/4 đến nay là 117.042 ca, trong đó có 24.683 bệnh nhân đã được công bố khỏi bệnh."
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:textSize="25dp"
+            android:layout_marginTop="5dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                app:srcCompat="@drawable/ic_fb_like" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_weight="1"
+                android:textSize="20dp"
+                android:text="999"
+                android:textStyle="bold"/>
+
+
+        </LinearLayout>
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="wrap_content"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#B6B6B6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusList" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+
+        <TextView
+            android:id="@+id/btnLike"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_like"
+            android:textSize="20dp"
+            android:text=" Like" />
+        <TextView
+            android:id="@+id/btnComment"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_comment"
+            android:textSize="20dp"
+            android:text=" Comment" />
+
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="wrap_content"
+        android:layout_height="5dp"
+        android:layout_marginTop="5dp"
+        android:background="#B6B6B6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusList" />
+
+
+</LinearLayout>

@@ -10,9 +10,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="50dp">
+        android:layout_marginBottom="5dp">
         <RelativeLayout
             android:id="@+id/image_layout"
             android:layout_width="wrap_content"
@@ -42,15 +42,81 @@
                 app:portion_spacing="4dp"
                 app:portion_width="4dp"
                 app:portions_count="10" />
-
-
         </RelativeLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/status.list"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </androidx.recyclerview.widget.RecyclerView>
-    </LinearLayout>
 
+    </LinearLayout>
+    <View
+        android:id="@+id/view3"
+        android:layout_width="wrap_content"
+        android:layout_height="5dp"
+        android:background="#B6B6B6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusList" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_imagePost"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="5dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_avatar"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="2dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edtPost"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:minHeight="40dp"
+                android:hint="What's on your mind?"
+                android:layout_weight="1"
+                android:background="@drawable/border_status"
+                android:ems="10"
+                android:inputType="text" />
+
+            <ImageView
+                android:id="@+id/btnPost"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="right"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/ic_send"
+                app:tint="@color/colorPrimary" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <View
+        android:id="@+id/view4"
+        android:layout_width="wrap_content"
+        android:layout_height="5dp"
+        android:background="#B6B6B6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusList" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_post"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp">
+    </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

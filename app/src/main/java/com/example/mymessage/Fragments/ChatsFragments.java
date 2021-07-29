@@ -12,8 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.mymessage.Adapters.PostAdapter;
 import com.example.mymessage.Adapters.UsersAdapter;
 import com.example.mymessage.Models.Friends;
+import com.example.mymessage.Models.Posts;
 import com.example.mymessage.Models.Users;
 import com.example.mymessage.databinding.FragmentChatsBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,6 +45,8 @@ public class ChatsFragments extends Fragment {
     FragmentChatsBinding binding;
     ArrayList<Friends> list = new ArrayList<>();
 
+
+
     FirebaseDatabase database;
     FirebaseAuth auth;
 //    ArrayList<Friends> friendsArrayList = new ArrayList<>();
@@ -58,11 +62,14 @@ public class ChatsFragments extends Fragment {
         final String uId = auth.getUid();
 
         UsersAdapter adapter1 = new UsersAdapter(list, getContext());
+
+
+
+
+
         binding.chatRecyclarView.setAdapter(adapter1);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         binding.chatRecyclarView.setLayoutManager(layoutManager);
-
-
 
 
 
@@ -85,9 +92,6 @@ public class ChatsFragments extends Fragment {
 
             }
         });
-
-
-
 
 
 

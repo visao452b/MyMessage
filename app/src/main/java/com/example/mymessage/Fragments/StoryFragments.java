@@ -12,16 +12,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.mymessage.Adapters.PostAdapter;
 import com.example.mymessage.Adapters.TopStatusAdapter;
 import com.example.mymessage.Models.Friends;
+import com.example.mymessage.Models.Posts;
 import com.example.mymessage.Models.Status;
 import com.example.mymessage.Models.UserStatus;
 import com.example.mymessage.Models.Users;
+import com.example.mymessage.R;
 import com.example.mymessage.databinding.FragmentStoryBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,10 +39,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -49,10 +57,13 @@ public class StoryFragments extends Fragment {
     public StoryFragments() {
         // Required empty public constructor
     }
+
     FragmentStoryBinding binding;
     FirebaseDatabase database;
-    FirebaseAuth auth;
+    FirebaseDatabase database1;
+    FirebaseAuth auth = FirebaseAuth.getInstance();
 
+    ArrayList<Posts> listPost = new ArrayList<>();
     TopStatusAdapter statusAdapter;
     ArrayList<UserStatus> userStatuses;
     ArrayList<Friends> list = new ArrayList<>();
@@ -60,65 +71,57 @@ public class StoryFragments extends Fragment {
     Users user;
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentStoryBinding.inflate(inflater, container, false);
-        auth = FirebaseAuth.getInstance();
+
+        String uId = auth.getUid();
+
         database = FirebaseDatabase.getInstance();
+        database1 = FirebaseDatabase.getInstance();
         dialog = new ProgressDialog(getContext());
         dialog.setMessage("Uploading Image...");
         dialog.setCancelable(false);
 
-        final String uId = auth.getUid();
-
-        database.getReference().child("Users").child(FirebaseAuth.getInstance().getUid())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        user = snapshot.getValue(Users.class);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
 
 
 
         userStatuses = new ArrayList<>();
         statusAdapter = new TopStatusAdapter(getContext(), userStatuses);
 
-
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
         binding.statusList.setLayoutManager(layoutManager);
         binding.statusList.setAdapter(statusAdapter);
 
-        database.getReference().child("Friends").child(uId).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                list.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Friends friends = dataSnapshot.getValue(Friends.class);
-                    list.add(friends);
-                    Log.i(TAG,friends.getNameFriend());
-                }
-            }
+//        database1.getReference().child("Friends").child(uId).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+//                list.clear();
+//                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+//                    Friends friends = dataSnapshot.getValue(Friends.class);
+//                    list.add(friends);
+//                }
+//            }
+//            @Override
+//            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+//            }
+//        });
+        Calendar c1 = Calendar.getInstance();
+        Date date = new Date();
+        Long time = date.getTime();
+        c1.setTime(date);
+        c1.roll(Calendar.DATE, -1);
 
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-            }
-        });
 
-        database.getReference().child("stories").orderByChild("lastUpdated").addValueEventListener(new ValueEventListener() {
+        database.getReference().child("stories").orderByChild("lastUpdated").startAfter(c1.getTime().getTime()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()) {
+                if (snapshot.exists()) {
                     userStatuses.clear();
-                    for(DataSnapshot storySnapshot : snapshot.getChildren()) {
+                    for (DataSnapshot storySnapshot : snapshot.getChildren()) {
                         UserStatus status = new UserStatus();
                         status.setName(storySnapshot.child("name").getValue(String.class));
                         status.setProfileImage(storySnapshot.child("profileImage").getValue(String.class));
@@ -126,17 +129,17 @@ public class StoryFragments extends Fragment {
 
                         ArrayList<Status> statuses = new ArrayList<>();
 
-                        for(DataSnapshot statusSnapshot : storySnapshot.child("statuses").getChildren()) {
+                        for (DataSnapshot statusSnapshot : storySnapshot.child("statuses").getChildren()) {
                             Status sampleStatus = statusSnapshot.getValue(Status.class);
                             statuses.add(sampleStatus);
                         }
                         status.setStatuses(statuses);
 
-                        for (int i = 0; i < list.size(); i++){
-                            if (list.get(i).getNameFriend().equals(status.getName())){
+//                        for (int i = 0; i < list.size(); i++) {
+//                            if (list.get(i).getNameFriend().equals(status.getName())) {
                                 userStatuses.add(status);
-                            }
-                        }
+//                            }
+//                        }
                     }
                     Collections.reverse(userStatuses);
 
@@ -146,6 +149,45 @@ public class StoryFragments extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+        database.getReference().child("Users").child(FirebaseAuth.getInstance().getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        user = snapshot.getValue(Users.class);
+                        Picasso.get().load(user.getProfilepic()).placeholder(R.drawable.ic_avatar).into(binding.profileImagePost);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+        PostAdapter postAdapter = new PostAdapter(getContext(), listPost);
+
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(getContext());
+        binding.listPost.setLayoutManager(layoutManager1);
+        binding.listPost.setAdapter(postAdapter);
+
+        database.getReference().child("Posts").orderByChild("timePost").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                listPost.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Posts posts = dataSnapshot.getValue(Posts.class);
+                    listPost.add(posts);
+                }
+                Collections.reverse(listPost);
+                postAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
             }
         });
@@ -185,14 +227,35 @@ public class StoryFragments extends Fragment {
 //        });
 
 
-
         binding.circular.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent();
+                Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(intent, 75);
+            }
+        });
+
+
+        binding.btnPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Posts posts = new Posts();
+                Date date = new Date();
+                posts.setUserPost(user.getUserName());
+                posts.setUserIdPost(user.getUserId());
+                posts.setTimePost(date.getTime());
+                posts.setContentPost(binding.edtPost.getText().toString());
+                posts.setFeeling(0);
+
+                database.getReference().child("Posts").push().setValue(posts).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(getContext(), "On Successful", Toast.LENGTH_SHORT).show();
+                        binding.edtPost.setText("");
+                    }
+                });
             }
         });
 
@@ -204,8 +267,8 @@ public class StoryFragments extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(data != null) {
-            if(data.getData() != null) {
+        if (data != null) {
+            if (data.getData() != null) {
                 dialog.show();
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 Date date = new Date();
@@ -214,7 +277,7 @@ public class StoryFragments extends Fragment {
                 reference.putFile(data.getData()).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        if(task.isSuccessful()) {
+                        if (task.isSuccessful()) {
                             reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
