@@ -54,13 +54,10 @@ public class SettingsActivity extends AppCompatActivity {
         binding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String status = binding.edtStatus.getText().toString();
                 String username = binding.edtUserName.getText().toString();
 
                 HashMap<String, Object> obj = new HashMap<>();
                 obj.put("userName", username);
-                obj.put("status", status);
-
                 database.getReference().child("Users").child(FirebaseAuth.getInstance().getUid())
                         .updateChildren(obj);
                 Toast.makeText(SettingsActivity.this, "Profile Updated", Toast.LENGTH_LONG).show();
@@ -77,7 +74,6 @@ public class SettingsActivity extends AppCompatActivity {
                                 .load(users.getProfilepic())
                                 .placeholder(R.drawable.ic_avatar)
                                 .into(binding.profileImage);
-                        binding.edtStatus.setText(users.getStatus());
                         binding.edtUserName.setText(users.getUserName());
                     }
 
@@ -94,6 +90,14 @@ public class SettingsActivity extends AppCompatActivity {
                 intent.setType("image/*"); // */*
                 startActivityForResult(intent, 33);
 
+            }
+        });
+
+        binding.changePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SettingsActivity.this, ChangePassword.class);
+                startActivity(intent);
             }
         });
 

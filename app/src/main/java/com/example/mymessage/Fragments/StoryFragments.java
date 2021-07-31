@@ -77,8 +77,6 @@ public class StoryFragments extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentStoryBinding.inflate(inflater, container, false);
 
-        String uId = auth.getUid();
-
         database = FirebaseDatabase.getInstance();
         database1 = FirebaseDatabase.getInstance();
         dialog = new ProgressDialog(getContext());
@@ -109,21 +107,15 @@ public class StoryFragments extends Fragment {
 //            public void onCancelled(@NonNull @NotNull DatabaseError error) {
 //            }
 //        });
-        Calendar c1 = Calendar.getInstance();
-        Date date = new Date();
-        Long time = date.getTime();
-        c1.setTime(date);
-        c1.roll(Calendar.DATE, -1);
 
-
-        database.getReference().child("stories").orderByChild("lastUpdated").startAfter(c1.getTime().getTime()).addValueEventListener(new ValueEventListener() {
+        database.getReference().child("stories").orderByChild("lastUpdated").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     userStatuses.clear();
                     for (DataSnapshot storySnapshot : snapshot.getChildren()) {
                         UserStatus status = new UserStatus();
-                        status.setName(storySnapshot.child("name").getValue(String.class));
+                        status.setUserId(storySnapshot.child("userId").getValue(String.class));
                         status.setProfileImage(storySnapshot.child("profileImage").getValue(String.class));
                         status.setLastUpdated(storySnapshot.child("lastUpdated").getValue(Long.class));
 
@@ -137,7 +129,7 @@ public class StoryFragments extends Fragment {
 
 //                        for (int i = 0; i < list.size(); i++) {
 //                            if (list.get(i).getNameFriend().equals(status.getName())) {
-                                userStatuses.add(status);
+                        userStatuses.add(status);
 //                            }
 //                        }
                     }
@@ -152,6 +144,49 @@ public class StoryFragments extends Fragment {
 
             }
         });
+        Calendar c1 = Calendar.getInstance();
+        Date date = new Date();
+        Long time = date.getTime();
+        c1.setTime(date);
+        c1.roll(Calendar.DATE, -1);
+
+
+//        database.getReference().child("stories").orderByChild("lastUpdated").startAfter(c1.getTime().getTime()).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (snapshot.exists()) {
+//                    userStatuses.clear();
+//                    for (DataSnapshot storySnapshot : snapshot.getChildren()) {
+//                        UserStatus status = new UserStatus();
+//                        status.setName(storySnapshot.child("name").getValue(String.class));
+//                        status.setProfileImage(storySnapshot.child("profileImage").getValue(String.class));
+//                        status.setLastUpdated(storySnapshot.child("lastUpdated").getValue(Long.class));
+//
+//                        ArrayList<Status> statuses = new ArrayList<>();
+//
+//                        for (DataSnapshot statusSnapshot : storySnapshot.child("statuses").getChildren()) {
+//                            Status sampleStatus = statusSnapshot.getValue(Status.class);
+//                            statuses.add(sampleStatus);
+//                        }
+//                        status.setStatuses(statuses);
+//
+////                        for (int i = 0; i < list.size(); i++) {
+////                            if (list.get(i).getNameFriend().equals(status.getName())) {
+//                                userStatuses.add(status);
+////                            }
+////                        }
+//                    }
+//                    Collections.reverse(userStatuses);
+//
+//                    statusAdapter.notifyDataSetChanged();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
 
         database.getReference().child("Users").child(FirebaseAuth.getInstance().getUid())
@@ -282,12 +317,12 @@ public class StoryFragments extends Fragment {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     UserStatus userStatus = new UserStatus();
-                                    userStatus.setName(user.getUserName());
+                                    userStatus.setUserId(user.getUserId());
                                     userStatus.setProfileImage(user.getProfilepic());
                                     userStatus.setLastUpdated(date.getTime());
 
                                     HashMap<String, Object> obj = new HashMap<>();
-                                    obj.put("name", userStatus.getName());
+                                    obj.put("userId", userStatus.getUserId());
                                     obj.put("profileImage", userStatus.getProfileImage());
                                     obj.put("lastUpdated", userStatus.getLastUpdated());
 

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,18 +20,20 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ChatGroupAdapter extends  RecyclerView.Adapter{
+public class ChatGroupAdapter extends RecyclerView.Adapter {
 
     ArrayList<MessageModel> messageModels;
     Context context;
-//    String recId;
-FirebaseDatabase database;
+    //    String recId;
+    FirebaseDatabase database;
     FirebaseAuth auth;
+    Users user;
 
     int SENDER_VIEW_TYPE = 1;
     int RECEIVER_VIEW_TYPE = 2;
@@ -50,10 +53,10 @@ FirebaseDatabase database;
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        if (viewType == SENDER_VIEW_TYPE){
+        if (viewType == SENDER_VIEW_TYPE) {
             View view = LayoutInflater.from(context).inflate(R.layout.sample_sender_group, parent, false);
             return new SenderViewVolder(view);
-        }else {
+        } else {
             View view = LayoutInflater.from(context).inflate(R.layout.sample_reciver_group, parent, false);
             return new ReceiverViewVolder(view);
         }
@@ -64,9 +67,9 @@ FirebaseDatabase database;
     @Override
     public int getItemViewType(int position) {
 
-        if (messageModels.get(position).getSenderId().equals(FirebaseAuth.getInstance().getUid())){
+        if (messageModels.get(position).getSenderId().equals(FirebaseAuth.getInstance().getUid())) {
             return SENDER_VIEW_TYPE;
-        }else {
+        } else {
             return RECEIVER_VIEW_TYPE;
         }
 
@@ -86,21 +89,47 @@ FirebaseDatabase database;
                 Users users = snapshot.getValue(Users.class);
                 users.setUserId(snapshot.getKey());
 
-                if (messageModel.getSenderId().equals(users.getUserId())){
-                   String userName = users.getUserName();
-                    if (holder.getClass() == SenderViewVolder.class){
-                        ((SenderViewVolder)holder).senderMsg.setText(messageModel.getMessage());
-                        ((SenderViewVolder)holder).nameSender.setText(userName);
+                if (messageModel.getSenderId().equals(users.getUserId())) {
+                    String userName = users.getUserName();
+                    if (holder.getClass() == SenderViewVolder.class) {
+                        ((SenderViewVolder) holder).senderMsg.setText(messageModel.getMessage());
+
+                        database.getReference().child("Users").child(messageModel.getSenderId())
+                                .addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        user = snapshot.getValue(Users.class);
+                                        Picasso.get().load(user.getProfilepic()).placeholder(R.drawable.ic_avatar).into(((SenderViewVolder) holder).senderPic);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
 
                         long time = messageModel.getTimestamp();
                         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
-                        ((SenderViewVolder)holder).senderTimeGroup.setText(dateFormat.format(new Date(time)));
-                    }else {
-                        ((ReceiverViewVolder)holder).receverMsg.setText(messageModel.getMessage());
-                        ((ReceiverViewVolder)holder).nameReciver.setText(userName);
-                        long time =messageModel.getTimestamp();
+                        ((SenderViewVolder) holder).senderTimeGroup.setText(dateFormat.format(new Date(time)));
+                    } else {
+                        ((ReceiverViewVolder) holder).receverMsg.setText(messageModel.getMessage());
+
+                        database.getReference().child("Users").child(messageModel.getSenderId())
+                                .addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        user = snapshot.getValue(Users.class);
+                                        Picasso.get().load(user.getProfilepic()).placeholder(R.drawable.ic_avatar).into(((ReceiverViewVolder) holder).receverPic);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                        long time = messageModel.getTimestamp();
                         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
-                        ((ReceiverViewVolder)holder).reciverTimeGroup.setText(dateFormat.format(new Date(time)));
+                        ((ReceiverViewVolder) holder).reciverTimeGroup.setText(dateFormat.format(new Date(time)));
                     }
                 }
             }
@@ -147,14 +176,15 @@ FirebaseDatabase database;
 
     public class ReceiverViewVolder extends RecyclerView.ViewHolder {
 
-        TextView receverMsg, nameReciver, reciverTimeGroup;
+        TextView receverMsg, reciverTimeGroup;
+        ImageView receverPic;
 
 
         public ReceiverViewVolder(@NonNull View itemView) {
             super(itemView);
             reciverTimeGroup = itemView.findViewById(R.id.reciverTimeGroup);
             receverMsg = itemView.findViewById(R.id.reicverTextChatGroup);
-            nameReciver = itemView.findViewById(R.id.nameReciverChatGroup);
+            receverPic = itemView.findViewById(R.id.profile_ReceverGroup);
 
 
         }
@@ -162,14 +192,14 @@ FirebaseDatabase database;
 
     public class SenderViewVolder extends RecyclerView.ViewHolder {
 
-        TextView senderMsg, nameSender, senderTimeGroup;
+        TextView senderMsg, senderTimeGroup;
+        ImageView senderPic;
 
         public SenderViewVolder(@NonNull View itemView) {
             super(itemView);
             senderTimeGroup = itemView.findViewById(R.id.senderTimeGroup);
             senderMsg = itemView.findViewById(R.id.senderTextChatGroup);
-            nameSender = itemView.findViewById(R.id.nameSenderChatGroup);
-
+            senderPic = itemView.findViewById(R.id.profile_SenderGroup);
         }
     }
 

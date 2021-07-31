@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.mymessage">
 
-<!--    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyMessage">
-        <activity android:name=".Activity.LogoutActivity"></activity>
+        <activity android:name=".Activity.ChangePassword"></activity>
+        <activity android:name=".Activity.Profile" />
+        <activity android:name=".Activity.LogoutActivity" />
         <activity android:name=".Activity.SettingGroupChat" />
         <activity android:name=".Activity.CreateGroupChat" />
         <activity android:name=".Activity.ShowGroupChat" />

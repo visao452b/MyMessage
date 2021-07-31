@@ -47,10 +47,10 @@ public class SignUpActivity extends AppCompatActivity {
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                            progressDialog.dismiss();
+                                progressDialog.dismiss();
                                 if(task.isSuccessful()) {
                                     String id = task.getResult().getUser().getUid();
-                                    Users users = new Users(binding.edtUsernameSignUp.getText().toString().trim(), binding.edtEmailSignUp.getText().toString().trim(), binding.edtPasswordSignUp.getText().toString().trim(), id);
+                                    Users users = new Users(binding.edtUsernameSignUp.getText().toString().trim(), binding.edtEmailSignUp.getText().toString().trim(), id);
 
 
                                     database.getReference().child("Users").child(id).setValue(users);

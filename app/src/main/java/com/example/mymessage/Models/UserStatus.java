@@ -3,26 +3,26 @@ package com.example.mymessage.Models;
 import java.util.ArrayList;
 
 public class UserStatus {
-    private String name, profileImage;
+    private String userId, profileImage;
     private long lastUpdated;
     private ArrayList<Status> statuses;
 
     public UserStatus() {
     }
 
-    public UserStatus(String name, String profileImage, long lastUpdated, ArrayList<Status> statuses) {
-        this.name = name;
+    public UserStatus(String userId, String profileImage, long lastUpdated, ArrayList<Status> statuses) {
+        this.userId = userId;
         this.profileImage = profileImage;
         this.lastUpdated = lastUpdated;
         this.statuses = statuses;
     }
 
-    public String getName() {
-        return name;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getProfileImage() {

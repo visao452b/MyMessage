@@ -14,6 +14,7 @@ import com.example.mymessage.Activity.MainActivity;
 import com.example.mymessage.Models.Friends;
 import com.example.mymessage.Models.Status;
 import com.example.mymessage.Models.UserStatus;
+import com.example.mymessage.Models.Users;
 import com.example.mymessage.R;
 import com.example.mymessage.databinding.ItemStatusBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,6 +22,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 
 import org.jetbrains.annotations.NotNull;
@@ -42,6 +44,8 @@ public class TopStatusAdapter extends RecyclerView.Adapter<TopStatusAdapter.TopS
     Context context;
     ArrayList<UserStatus> userStatuses;
     ArrayList<Friends> friendsArrayList;
+    FirebaseDatabase database;
+    Users user;
 
     public TopStatusAdapter(Context context, ArrayList<UserStatus> userStatuses) {
         this.context = context;
@@ -57,52 +61,70 @@ public class TopStatusAdapter extends RecyclerView.Adapter<TopStatusAdapter.TopS
 
     @Override
     public void onBindViewHolder(@NonNull TopStatusViewHolder holder, int position) {
+        try {
+            UserStatus userStatus = userStatuses.get(position);
+            Status lastStatus = userStatus.getStatuses().get(userStatus.getStatuses().size() - 1);
 
-        UserStatus userStatus = userStatuses.get(position);
+            Glide.with(context).load(lastStatus.getImageUrl()).into(holder.binding.image);
+
+            holder.binding.circularStatusView.setPortionsCount(userStatus.getStatuses().size());
+
+            String userId = userStatus.getUserId();
+            database = FirebaseDatabase.getInstance();
+            database.getReference().child("Users").child(userId)
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            user = snapshot.getValue(Users.class);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
 
 
-        Status lastStatus = userStatus.getStatuses().get(userStatus.getStatuses().size() - 1);
+            holder.binding.circularStatusView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-        Glide.with(context).load(lastStatus.getImageUrl()).into(holder.binding.image);
-
-        holder.binding.circularStatusView.setPortionsCount(userStatus.getStatuses().size());
-
-
-        holder.binding.circularStatusView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                ArrayList<MyStory> myStories = new ArrayList<>();
-                for (Status status : userStatus.getStatuses()) {
-                    Date date = new Date(status.getTimeStamp());
-                    myStories.add(new MyStory(status.getImageUrl(), date));
-                }
-                Collections.reverse(myStories);
+                    ArrayList<MyStory> myStories = new ArrayList<>();
+                    for (Status status : userStatus.getStatuses()) {
+                        Date date = new Date(status.getTimeStamp());
+                        myStories.add(new MyStory(status.getImageUrl(), date));
+                    }
+                    Collections.reverse(myStories);
 //                SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm");
 //                long time = posts.getTimePost();
 //                SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm");
-                int i = 0;
-                new StoryView.Builder(((MainActivity) context).getSupportFragmentManager())
-                        .setStoriesList(myStories) // Required
-                        .setStoryDuration(5000) // Default is 2000 Millis (2 Seconds)
-                        .setTitleText(userStatus.getName()) // Default is Hidden
-                        .setSubtitleText("") // Default is Hidden
-                        .setTitleLogoUrl(userStatus.getProfileImage()) // Default is Hidden
-                        .setStoryClickListeners(new StoryClickListeners() {
-                            @Override
-                            public void onDescriptionClickListener(int position) {
-                                //your action
-                            }
 
-                            @Override
-                            public void onTitleIconClickListener(int position) {
-                                //your action
-                            }
-                        })// Optional Listeners
-                        .build() // Must be called before calling show method
-                        .show();
-            }
-        });
+                    new StoryView.Builder(((MainActivity) context).getSupportFragmentManager())
+                            .setStoriesList(myStories) // Required
+                            .setStoryDuration(5000) // Default is 2000 Millis (2 Seconds)
+                            .setTitleText(user.getUserName()) // Default is Hidden
+                            .setSubtitleText("") // Default is Hidden
+                            .setTitleLogoUrl(userStatus.getProfileImage()) // Default is Hidden
+                            .setStoryClickListeners(new StoryClickListeners() {
+                                @Override
+                                public void onDescriptionClickListener(int position) {
+                                    //your action
+                                }
+
+                                @Override
+                                public void onTitleIconClickListener(int position) {
+                                    //your action
+                                }
+                            })// Optional Listeners
+                            .build() // Must be called before calling show method
+                            .show();
+                }
+            });
+        }catch (Exception e){
+            Log.e(TAG, "ERROR", e);
+        }
+
+
 
     }
 
