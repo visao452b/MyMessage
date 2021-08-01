@@ -22,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 public class FindFriends extends AppCompatActivity {
@@ -33,6 +35,7 @@ public class FindFriends extends AppCompatActivity {
     ArrayList<Users> listFriend = new ArrayList<>();
     Friends friend = new Friends();
     Friends friend2 = new Friends();
+    Users user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,17 @@ public class FindFriends extends AppCompatActivity {
         final String uId = auth.getUid();
 
 
+        database.getReference().child("Users").child(auth.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                user = snapshot.getValue(Users.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
 
 
 
@@ -53,6 +67,15 @@ public class FindFriends extends AppCompatActivity {
         binding.btnFindFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (binding.edtFindFriends.getText().toString().isEmpty()){
+                    binding.edtFindFriends.setError("Enter Email");
+                    return;
+                }
+                if (binding.edtFindFriends.getText().toString().equals(user.getEmail())){
+                    binding.edtFindFriends.setError("Email ERROR");
+                    return;
+                }
 //                String u = binding.edtFindFriends.getText().toString();
                 database.getReference().child("Users").addValueEventListener(new ValueEventListener() {
                     @Override

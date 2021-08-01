@@ -1,5 +1,6 @@
 package com.example.mymessage.Adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -13,8 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mymessage.Activity.ChatDetailActivity;
+import com.example.mymessage.Activity.Profile;
 import com.example.mymessage.Models.Friends;
 import com.example.mymessage.R;
+import com.example.mymessage.databinding.DeleteChatBinding;
+import com.example.mymessage.databinding.DeleteFriendBinding;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -63,18 +68,54 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         holder.removeFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                reference =FirebaseDatabase.getInstance().getReference()
-                        .child("Friends")
-                        .child(uId)
-                        .child(friends.getFriendId());
-                reference2 =FirebaseDatabase.getInstance().getReference()
-                        .child("Friends")
-                        .child(friends.getFriendId())
-                        .child(uId);
-                reference.removeValue();
-                reference2.removeValue();
+                View view = LayoutInflater.from(context).inflate(R.layout.delete_friend, null);
+                DeleteFriendBinding binding = DeleteFriendBinding.bind(view);
+                AlertDialog dialog = new AlertDialog.Builder(context)
+                        .setTitle("Delete Chat")
+                        .setView(binding.getRoot())
+                        .create();
+                binding.deleteFriend.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        reference =FirebaseDatabase.getInstance().getReference()
+                                .child("Friends")
+                                .child(uId)
+                                .child(friends.getFriendId());
+                        reference2 =FirebaseDatabase.getInstance().getReference()
+                                .child("Friends")
+                                .child(friends.getFriendId())
+                                .child(uId);
+                        reference.removeValue();
+                        reference2.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(context, "Xóa bạn bè thành công!!!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        dialog.dismiss();
 
-                Toast.makeText(context, "Xóa bạn bè thành công!!!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                binding.cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+
+
+
+            }
+        });
+
+        holder.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentP = new Intent(context, Profile.class);
+                intentP.putExtra("uId", friends.getFriendId());
+                context.startActivity(intentP);
             }
         });
     }

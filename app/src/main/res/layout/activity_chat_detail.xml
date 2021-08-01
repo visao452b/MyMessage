@@ -145,4 +145,13 @@
         app:srcCompat="@drawable/ic_send"
         app:tint="@color/white"
         tools:ignore="VectorDrawableCompat" />
+
+<!--    <ImageView-->
+<!--        android:id="@+id/menu"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:srcCompat="@drawable/ic_menu"-->
+<!--        tools:ignore="MissingConstraints,VectorDrawableCompat"-->
+<!--        tools:layout_editor_absoluteX="377dp"-->
+<!--        tools:layout_editor_absoluteY="11dp" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

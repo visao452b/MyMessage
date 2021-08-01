@@ -9,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyMessage">
-        <activity android:name=".Activity.ChangePassword"></activity>
-        <activity android:name=".Activity.Profile" />
+        <activity android:name=".Activity.Profile"></activity>
+        <activity android:name=".Activity.ChangePassword" />
+        <activity android:name=".Activity.ProfileSetting" />
         <activity android:name=".Activity.LogoutActivity" />
         <activity android:name=".Activity.SettingGroupChat" />
         <activity android:name=".Activity.CreateGroupChat" />

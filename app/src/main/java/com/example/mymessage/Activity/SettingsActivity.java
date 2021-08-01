@@ -101,6 +101,14 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        binding.updateIf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SettingsActivity.this, ProfileSetting.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override

@@ -5,5 +5,100 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.Profile">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        tools:ignore="MissingConstraints">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/avatar_profile"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_send"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp"
+            />
+
+        <TextView
+            android:id="@+id/name_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="User Name"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="30dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/ic_chat"
+                android:text="Message" />
+
+            <TextView
+                android:id="@+id/addFriend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/ic_add_friend"
+                android:text="Add friend" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/edtLive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:drawableStart="@drawable/ic_home_icon_silhouette"
+            android:ems="10"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            android:hint=" Lives in..."
+            android:inputType="text"
+            android:padding="9dp" />
+        <TextView
+            android:id="@+id/edtWork"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:drawableStart="@drawable/ic_work"
+            android:ems="10"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            android:hint=" Worked at..."
+            android:inputType="text"
+            android:padding="9dp" />
+        <View
+            android:id="@+id/view4"
+            android:layout_width="wrap_content"
+            android:layout_height="2dp"
+            android:background="#B6B6B6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/statusList" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_post_profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

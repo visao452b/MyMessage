@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.mymessage.Adapters.ChatAdapter;
+import com.example.mymessage.Adapters.FragmentsAdapter;
+import com.example.mymessage.Adapters.FriendsAdapter;
 import com.example.mymessage.Models.MessageModel;
 import com.example.mymessage.Models.UserStatus;
 import com.example.mymessage.R;
@@ -54,7 +56,6 @@ public class ChatDetailActivity extends AppCompatActivity {
         binding = ActivityChatDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getSupportActionBar().hide();
-
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -81,6 +82,7 @@ public class ChatDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ChatDetailActivity.this, MainActivity.class);
                 startActivity(intent);
+
             }
         });
 
@@ -316,6 +318,4 @@ public class ChatDetailActivity extends AppCompatActivity {
         String currentId = FirebaseAuth.getInstance().getUid();
         database.getReference().child("presence").child(currentId).setValue("Offline");
     }
-
-
 }

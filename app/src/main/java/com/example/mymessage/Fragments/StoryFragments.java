@@ -66,7 +66,7 @@ public class StoryFragments extends Fragment {
     ArrayList<Posts> listPost = new ArrayList<>();
     TopStatusAdapter statusAdapter;
     ArrayList<UserStatus> userStatuses;
-    ArrayList<Friends> list = new ArrayList<>();
+//    ArrayList<Friends> list = new ArrayList<>();
     ProgressDialog dialog;
     Users user;
 

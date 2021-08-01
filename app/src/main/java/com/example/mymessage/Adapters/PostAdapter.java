@@ -1,6 +1,7 @@
 package com.example.mymessage.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mymessage.Activity.Profile;
 import com.example.mymessage.Models.Friends;
 import com.example.mymessage.Models.Posts;
 import com.example.mymessage.Models.Users;
@@ -71,7 +73,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 }
             });
         }
-
+    holder.binding.profileImageShowUserPost.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intentP = new Intent(contex, Profile.class);
+            intentP.putExtra("uId", posts.getUserIdPost());
+            contex.startActivity(intentP);
+        }
+    });
 
 
 

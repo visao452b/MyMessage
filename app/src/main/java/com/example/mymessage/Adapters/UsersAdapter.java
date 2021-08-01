@@ -1,5 +1,6 @@
 package com.example.mymessage.Adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.ContactsContract;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,9 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mymessage.Activity.ChatDetailActivity;
 import com.example.mymessage.Activity.MainActivity;
 import com.example.mymessage.Models.Friends;
+import com.example.mymessage.Models.MessageModel;
 import com.example.mymessage.Models.Users;
 import com.example.mymessage.R;
 import com.example.mymessage.databinding.ActivityMainBinding;
+import com.example.mymessage.databinding.DeleteChatBinding;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -116,6 +121,43 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder>{
                 intent.putExtra("profilePic", friend.getProfilepic());
                 intent.putExtra("userName", friend.getNameFriend());
                 context.startActivity(intent);
+            }
+        });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                View view = LayoutInflater.from(context).inflate(R.layout.delete_chat, null);
+                DeleteChatBinding binding = DeleteChatBinding.bind(view);
+                AlertDialog dialog = new AlertDialog.Builder(context)
+                        .setTitle("Delete Chat")
+                        .setView(binding.getRoot())
+                        .create();
+
+                binding.deleteChat.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        MessageModel messageModel = new MessageModel();
+                        FirebaseDatabase.getInstance().getReference().child("chats")
+                                .child(FirebaseAuth.getInstance().getUid() + friend.getFriendId()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(context, "Deleted chat successfully", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        dialog.dismiss();
+                    }
+                });
+                binding.cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+
+                return false;
             }
         });
 
