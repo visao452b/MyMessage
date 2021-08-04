@@ -51,7 +51,7 @@
                     android:id="@+id/userName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mian Asad Ali"
+                    android:text="User Name"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />

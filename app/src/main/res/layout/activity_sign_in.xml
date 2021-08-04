@@ -38,7 +38,6 @@
             android:drawableStart="@drawable/ic_email"
             android:ems="10"
             android:hint="Email"
-            android:text="visao452b@gmail.com"
             android:inputType="textEmailAddress"
             android:padding="9dp" />
 

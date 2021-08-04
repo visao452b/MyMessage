@@ -1,5 +1,6 @@
 package com.example.mymessage.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import com.example.mymessage.Adapters.FriendGroupAdapter;
 import com.example.mymessage.Function.RandomString;
 import com.example.mymessage.Models.Friends;
+import com.example.mymessage.Models.Groups;
 import com.example.mymessage.R;
 import com.example.mymessage.databinding.ActivitySettingGroupChatBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,6 +21,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,6 +58,7 @@ public class SettingGroupChat extends AppCompatActivity {
 
         String uId = auth.getUid();
         Date date = new Date();
+        String groupId = CreateGroupChat.retunrStringGroup();
 
         final ArrayList<Friends> friendsArrayList = new ArrayList<>();
         final FriendGroupAdapter friendGroupAdapter = new FriendGroupAdapter(friendsArrayList, getApplicationContext());
@@ -82,6 +87,23 @@ public class SettingGroupChat extends AppCompatActivity {
 
             }
         });
+
+        database1.getReference()
+                .child("Groups")
+                .child(groupId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                Groups group = snapshot.getValue(Groups.class);
+                binding.groupNameSetting.setText(group.getGroupName());
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
+//        database1.getReference().child("UserGroups").child(groupId).
 
 
         binding.nextCreateGroupchat.setOnClickListener(new View.OnClickListener() {

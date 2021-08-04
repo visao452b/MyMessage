@@ -30,6 +30,8 @@
         </activity>
         <activity android:name=".Activity.SignUpActivity" />
         <activity android:name=".Activity.MainActivity" />
+
+        <receiver android:name=".Notifications.MyFirebaseIdService" />
     </application>
 
 </manifest>
