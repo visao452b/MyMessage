@@ -1,12 +1,19 @@
 package com.example.mymessage.Fragments;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +33,7 @@ import com.example.mymessage.Models.Posts;
 import com.example.mymessage.Models.Status;
 import com.example.mymessage.Models.UserStatus;
 import com.example.mymessage.Models.Users;
+import com.example.mymessage.Notifications.MyApplication;
 import com.example.mymessage.R;
 import com.example.mymessage.databinding.FragmentStoryBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -53,6 +61,8 @@ import java.util.HashMap;
 import static android.content.ContentValues.TAG;
 
 public class StoryFragments extends Fragment {
+
+    private static final int NOTIFICATION_ID = 1;
 
     public StoryFragments() {
         // Required empty public constructor
@@ -94,19 +104,7 @@ public class StoryFragments extends Fragment {
         binding.statusList.setLayoutManager(layoutManager);
         binding.statusList.setAdapter(statusAdapter);
 
-//        database1.getReference().child("Friends").child(uId).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-//                list.clear();
-//                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                    Friends friends = dataSnapshot.getValue(Friends.class);
-//                    list.add(friends);
-//                }
-//            }
-//            @Override
-//            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-//            }
-//        });
+
 
         database.getReference().child("stories").orderByChild("lastUpdated").addValueEventListener(new ValueEventListener() {
             @Override
@@ -151,43 +149,6 @@ public class StoryFragments extends Fragment {
         c1.roll(Calendar.DATE, -1);
 
 
-//        database.getReference().child("stories").orderByChild("lastUpdated").startAfter(c1.getTime().getTime()).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if (snapshot.exists()) {
-//                    userStatuses.clear();
-//                    for (DataSnapshot storySnapshot : snapshot.getChildren()) {
-//                        UserStatus status = new UserStatus();
-//                        status.setName(storySnapshot.child("name").getValue(String.class));
-//                        status.setProfileImage(storySnapshot.child("profileImage").getValue(String.class));
-//                        status.setLastUpdated(storySnapshot.child("lastUpdated").getValue(Long.class));
-//
-//                        ArrayList<Status> statuses = new ArrayList<>();
-//
-//                        for (DataSnapshot statusSnapshot : storySnapshot.child("statuses").getChildren()) {
-//                            Status sampleStatus = statusSnapshot.getValue(Status.class);
-//                            statuses.add(sampleStatus);
-//                        }
-//                        status.setStatuses(statuses);
-//
-////                        for (int i = 0; i < list.size(); i++) {
-////                            if (list.get(i).getNameFriend().equals(status.getName())) {
-//                                userStatuses.add(status);
-////                            }
-////                        }
-//                    }
-//                    Collections.reverse(userStatuses);
-//
-//                    statusAdapter.notifyDataSetChanged();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-
 
         database.getReference().child("Users").child(FirebaseAuth.getInstance().getUid())
                 .addValueEventListener(new ValueEventListener() {
@@ -228,38 +189,6 @@ public class StoryFragments extends Fragment {
         });
 
 
-//        database.getReference().child("stories").orderByChild("lastUpdated").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if(snapshot.exists()) {
-//                    userStatuses.clear();
-//                    for(DataSnapshot storySnapshot : snapshot.getChildren()) {
-//                        UserStatus status = new UserStatus();
-//                        status.setName(storySnapshot.child("name").getValue(String.class));
-//                        status.setProfileImage(storySnapshot.child("profileImage").getValue(String.class));
-//                        status.setLastUpdated(storySnapshot.child("lastUpdated").getValue(Long.class));
-//
-//                        ArrayList<Status> statuses = new ArrayList<>();
-//
-//                        for(DataSnapshot statusSnapshot : storySnapshot.child("statuses").getChildren()) {
-//                            Status sampleStatus = statusSnapshot.getValue(Status.class);
-//                            statuses.add(sampleStatus);
-//                        }
-//
-//                        status.setStatuses(statuses);
-//                        userStatuses.add(status);
-//                    }
-//                    Collections.reverse(userStatuses);
-//
-//                    statusAdapter.notifyDataSetChanged();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
 
 
         binding.circular.setOnClickListener(new View.OnClickListener() {
@@ -291,11 +220,34 @@ public class StoryFragments extends Fragment {
                         binding.edtPost.setText("");
                     }
                 });
+
+                sendNotification(binding.edtPost.getText().toString());
             }
         });
 
 
         return binding.getRoot();
+    }
+
+    private void sendNotification(String toString) {
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_send);
+        Notification notification = new NotificationCompat.Builder(getContext(), MyApplication.CHANNEL_ID)
+                .setContentText(toString)
+                .setSmallIcon(R.drawable.ic_send)
+                .setColor(getResources().getColor(R.color.colorPrimary))
+                .setLargeIcon(bitmap)
+                .build();
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getContext());
+        notificationManagerCompat.notify(getNotificationId(), notification);
+
+//        NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+//        if (notificationManager != null){
+//            notificationManager.notify(getNotificationId(), notification);
+//        }
+    }
+
+    private int getNotificationId(){
+        return (int) new Date().getTime();
     }
 
     @Override
