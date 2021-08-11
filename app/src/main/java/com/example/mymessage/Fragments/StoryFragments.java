@@ -44,6 +44,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -61,6 +62,8 @@ import java.util.HashMap;
 import static android.content.ContentValues.TAG;
 
 public class StoryFragments extends Fragment {
+
+    private static final String TAG = Context.class.getName();
 
     private static final int NOTIFICATION_ID = 1;
 
@@ -103,6 +106,23 @@ public class StoryFragments extends Fragment {
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
         binding.statusList.setLayoutManager(layoutManager);
         binding.statusList.setAdapter(statusAdapter);
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+
+                        // Log and toast
+                        Log.e(TAG, token);
+                    }
+                });
 
 
 
@@ -233,6 +253,7 @@ public class StoryFragments extends Fragment {
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_send);
         Notification notification = new NotificationCompat.Builder(getContext(), MyApplication.CHANNEL_ID)
                 .setContentText(toString)
+                .setContentTitle(user.getUserName()+" post:")
                 .setSmallIcon(R.drawable.ic_send)
                 .setColor(getResources().getColor(R.color.colorPrimary))
                 .setLargeIcon(bitmap)

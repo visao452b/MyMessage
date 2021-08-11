@@ -10,6 +10,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyMessage">
+
+        <service
+            android:name=".Notifications.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
         <activity android:name=".Activity.Profile"></activity>
         <activity android:name=".Activity.ChangePassword" />
         <activity android:name=".Activity.ProfileSetting" />
