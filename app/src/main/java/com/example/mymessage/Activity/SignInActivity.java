@@ -1,6 +1,7 @@
 package com.example.mymessage.Activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
@@ -28,6 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -36,6 +39,9 @@ public class SignInActivity extends AppCompatActivity {
     FirebaseDatabase database;
     ProgressDialog progressDialog;
     GoogleSignInClient mGoogleSignInClient;
+
+
+    private static final String TAG = Context.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +99,31 @@ public class SignInActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 progressDialog.dismiss();
                                  if (task.isSuccessful()){
+                                     FirebaseMessaging.getInstance().getToken()
+                                             .addOnCompleteListener(new OnCompleteListener<String>() {
+                                                 @Override
+                                                 public void onComplete(@NonNull Task<String> task) {
+                                                     if (!task.isSuccessful()) {
+                                                         Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                                                         return;
+                                                     }
+
+                                                     // Get new FCM registration token
+                                                     String token = task.getResult();
+
+
+
+                                                     // Log and toast
+                                                     Log.e(TAG, token);
+                                                     database.getReference().child("Token").child(auth.getUid()).setValue(token).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                         @Override
+                                                         public void onSuccess(Void unused) {
+                                                             Log.e("Token", "onSuccess");
+                                                         }
+                                                     });
+                                                 }
+                                             });
+
                                      Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                                      startActivity(intent);
                                  }else {

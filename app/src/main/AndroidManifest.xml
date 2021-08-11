@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mymessage">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
     <application
         android:name=".Notifications.MyApplication"
         android:allowBackup="true"
@@ -12,12 +14,14 @@
         android:theme="@style/Theme.MyMessage">
 
         <service
-            android:name=".Notifications.MyFirebaseMessagingService"
-            android:exported="false">
+            android:name=".Notifications.FirebaseMessagingService"
+            android:permission="TODO"
+            tools:ignore="ExportedService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <activity android:name=".Activity.Profile"></activity>
         <activity android:name=".Activity.ChangePassword" />
         <activity android:name=".Activity.ProfileSetting" />

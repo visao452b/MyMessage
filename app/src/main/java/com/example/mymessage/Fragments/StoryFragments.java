@@ -1,7 +1,6 @@
 package com.example.mymessage.Fragments;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +26,6 @@ import android.widget.Toast;
 
 import com.example.mymessage.Adapters.PostAdapter;
 import com.example.mymessage.Adapters.TopStatusAdapter;
-import com.example.mymessage.Models.Friends;
 import com.example.mymessage.Models.Posts;
 import com.example.mymessage.Models.Status;
 import com.example.mymessage.Models.UserStatus;
@@ -52,14 +49,11 @@ import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-
-import static android.content.ContentValues.TAG;
 
 public class StoryFragments extends Fragment {
 

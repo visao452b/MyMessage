@@ -1,10 +1,12 @@
 package com.example.mymessage.Activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
@@ -18,6 +20,8 @@ import com.example.mymessage.Adapters.FragmentsAdapter;
 import com.example.mymessage.Adapters.FriendsAdapter;
 import com.example.mymessage.Models.MessageModel;
 import com.example.mymessage.Models.UserStatus;
+import com.example.mymessage.Models.Users;
+import com.example.mymessage.Notifications.FcmNotificationsSender;
 import com.example.mymessage.R;
 import com.example.mymessage.databinding.ActivityChatDetailBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,10 +32,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,6 +53,12 @@ public class ChatDetailActivity extends AppCompatActivity {
     FirebaseStorage storage;
     ProgressDialog dialog;
     ArrayList<MessageModel> messages;
+
+    String tk;
+    Users user;
+    String uName;
+
+    private static final String TAG = Context.class.getName();
 
 
 
@@ -68,10 +81,13 @@ public class ChatDetailActivity extends AppCompatActivity {
         dialog.setMessage("Uploading image...");
         dialog.setCancelable(false);
 
+
+
         messages = new ArrayList<>();
 
         final String senderId = auth.getUid();
         Date date = new Date();
+
 
 
         binding.userName.setText(userName);
@@ -121,6 +137,35 @@ public class ChatDetailActivity extends AppCompatActivity {
 
             }
         });
+
+        database.getReference().child("Token").child(recieveId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if(snapshot.exists()) {
+                    tk = snapshot.getValue(String.class);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
+        database.getReference().child("Users").child(FirebaseAuth.getInstance().getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        user = snapshot.getValue(Users.class);
+                        uName = user.getUserName();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
 
         database.getReference().child("chats")
                 .child(senderRoom)
@@ -192,28 +237,35 @@ public class ChatDetailActivity extends AppCompatActivity {
                     }
                 });
 
-//                String message = binding.edtMessage.getText().toString();
-//                final MessageModel model = new MessageModel(message, senderId, date.getTime());
-//                model.setTimestamp(new Date().getTime());
-//                binding.edtMessage.setText("");
-//
-//                database.getReference().child("chats")
-//                        .child(senderRoom)
-//                        .push()
-//                        .setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void unused) {
-//                        database.getReference().child("chats")
-//                                .child(receiverRoom)
-//                                .push()
-//                                .setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
+                String title = "New message from "+uName;
+                Log.e(TAG, tk);
+                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(tk, title, messageTxt, getApplication(), ChatDetailActivity.this);
+                notificationsSender.SendNotifications();
+
+//                FirebaseMessaging.getInstance().getToken()
+//                        .addOnCompleteListener(new OnCompleteListener<String>() {
 //                            @Override
-//                            public void onSuccess(Void unused) {
+//                            public void onComplete(@NonNull Task<String> task) {
+//                                if (!task.isSuccessful()) {
+//                                    Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+//                                    return;
+//                                }
 //
+//                                // Get new FCM registration token
+//                                String token = task.getResult();
+//
+//
+//
+//                                // Log and toast
+//                                String title = "New message from "+userName;
+//                                Log.e(TAG, token);
+//                                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(token, title, messageTxt, getApplication(), ChatDetailActivity.this);
+//                                notificationsSender.SendNotifications();
 //                            }
 //                        });
-//                    }
-//                });
+
+
+
             }
         });
 
