@@ -2,6 +2,7 @@ package com.example.mymessage.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.example.mymessage.Models.Posts;
 import com.example.mymessage.Models.Users;
 import com.example.mymessage.R;
 import com.example.mymessage.databinding.SamplePostBinding;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,11 +30,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static android.content.ContentValues.TAG;
+
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
     Context contex;
     ArrayList<Posts> listPosts;
 
     Users users;
+    String like;
+
 
     FirebaseDatabase database;
 
@@ -51,10 +57,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull PostAdapter.PostViewHolder holder, int position) {
-        database =FirebaseDatabase.getInstance();
+        database = FirebaseDatabase.getInstance();
         Posts posts = listPosts.get(position);
 
-        if (posts.getUserIdPost()!= null){
+        if (posts.getUserIdPost() != null) {
             database.getReference().child("Users").child(posts.getUserIdPost()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -73,19 +79,60 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 }
             });
         }
-    holder.binding.profileImageShowUserPost.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intentP = new Intent(contex, Profile.class);
-            intentP.putExtra("uId", posts.getUserIdPost());
-            contex.startActivity(intentP);
-        }
-    });
+        holder.binding.profileImageShowUserPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentP = new Intent(contex, Profile.class);
+                intentP.putExtra("uId", posts.getUserIdPost());
+                contex.startActivity(intentP);
+            }
+        });
+
+//        database.getReference().child("Posts").child(posts.getPostId()).child("feeling").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+//                like = snapshot.getValue(String.class);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+//
+//            }
+//        });
+
+
+//        holder.binding.feelingPost.setText(posts.getFeeling());
 
 
 
 
+//        database.getReference().child("Posts").child(posts.getPostId()).child("feeling").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+//                like = snapshot.getValue(Integer.class);
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+//
+//            }
+//        });
+//        int like = posts.getFeeling();
+//            holder.binding.feelingPost.setText(like);
 
+//        holder.binding.btnLike.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int like = posts.getFeeling() +1;
+//                database.getReference().child("Posts").child(posts.getPostId()).child("feeling").setValue(like).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void unused) {
+//                        holder.binding.feelingPost.setText(like);
+//                    }
+//                });
+//            }
+//        });
     }
 
     @Override

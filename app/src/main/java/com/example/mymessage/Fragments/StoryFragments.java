@@ -226,16 +226,19 @@ public class StoryFragments extends Fragment {
                 posts.setTimePost(date.getTime());
                 posts.setContentPost(binding.edtPost.getText().toString());
                 posts.setFeeling(0);
+                String randomKey = database.getReference().push().getKey();
+                posts.setPostId(randomKey);
 
-                database.getReference().child("Posts").push().setValue(posts).addOnSuccessListener(new OnSuccessListener<Void>() {
+                database.getReference().child("Posts").child(randomKey).setValue(posts).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         Toast.makeText(getContext(), "On Successful", Toast.LENGTH_SHORT).show();
                         binding.edtPost.setText("");
+                        sendNotification(binding.edtPost.getText().toString());
                     }
                 });
 
-                sendNotification(binding.edtPost.getText().toString());
+
             }
         });
 

@@ -16,12 +16,6 @@ public class MessageModel {
         this.timestamp = timestamp;
     }
 
-//    public MessageModel(Integer feeling, String message, String senderId, Long timestamp) {
-//        this.feeling = feeling;
-//        this.message = message;
-//        this.senderId = senderId;
-//        this.timestamp = timestamp;
-//    }
 
     public String getMessageId() {
         return messageId;

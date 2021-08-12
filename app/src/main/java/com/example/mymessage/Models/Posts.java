@@ -1,11 +1,20 @@
 package com.example.mymessage.Models;
 
 public class Posts {
-    String userPost, contentPost, userIdPost;
+    String userPost, contentPost, userIdPost, postId;
     Long timePost;
     int feeling;
 
     public Posts() {
+    }
+
+    public Posts(String userPost, String contentPost, String userIdPost, String postId, Long timePost, int feeling) {
+        this.userPost = userPost;
+        this.contentPost = contentPost;
+        this.userIdPost = userIdPost;
+        this.postId = postId;
+        this.timePost = timePost;
+        this.feeling = feeling;
     }
 
     public Posts(String userPost, String contentPost, String userIdPost, Long timePost) {
@@ -67,5 +76,13 @@ public class Posts {
 
     public void setFeeling(int feeling) {
         this.feeling = feeling;
+    }
+
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
     }
 }
