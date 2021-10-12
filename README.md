@@ -1,10 +1,10 @@
 # Ứng dụng chat MyMessage
 Mymessage sử dụng ngôn ngữ java và hệ quản trị cơ sở dữ liệu Firebase để lưu trữ dữ liệu
-##Các hình ảnh mô tả về ứng dụng
-![Home Fragment](https://datrang-my.sharepoint.com/:i:/g/personal/visao452b_datrang_onmicrosoft_com/Ebw9k7MvaLpJl7iTANNfxs0B2cHJOMZmn1fJ2GJYLYGeXA?e=hLa8fh)
-![Chat Fragment](https://datrang-my.sharepoint.com/:i:/g/personal/visao452b_datrang_onmicrosoft_com/ES_v-wYmGbBIrb7YrnuhFXQBrQvS5zamyzVlDLd_4HwH3A?e=zCZwJ2)
-![Friend Fragment](https://datrang-my.sharepoint.com/:i:/g/personal/visao452b_datrang_onmicrosoft_com/EXbny6HckjBBhRtnndr4rikB8j10dnKqXsGfJed-C7vp8w?e=awt6E3)
-![Activity Chat](https://datrang-my.sharepoint.com/:i:/g/personal/visao452b_datrang_onmicrosoft_com/EaaXSJkSHkdEk4XQOT9Sp38BnrCqeXNyw9LVC2W-gna9Og?e=OiQEGM)
-![View Story](https://datrang-my.sharepoint.com/:i:/g/personal/visao452b_datrang_onmicrosoft_com/EZw7k0gse89Jp4p2un8j4cIBa5X8iFhIzVvo_88h9sShbg?e=lJnLOw)
-![Activity Login](https://datrang-my.sharepoint.com/:i:/g/personal/visao452b_datrang_onmicrosoft_com/EVToIm1-5U1Ogb7KwpGgp6YB2ZT8KzdiVMHR-t3I_uGH1Q?e=Dt2fBj)
-![Activity ResetPassword](https://datrang-my.sharepoint.com/:i:/g/personal/visao452b_datrang_onmicrosoft_com/EX6i4IvyUVxIgWMuZO9MN6sB17ersMcNrD9M4rkZdcR_tA?e=ZMtqtT)
+Các hình ảnh mô tả về ứng dụng
+![Home Fragment](https://drive.google.com/file/d/1OdyJWXnjm_mMbvGA8B5A84plBa-PAxIG/view?usp=sharing)
+![Chat Fragment](https://drive.google.com/file/d/1Fw7YCfgukMOXIydDD0rSJ9GBbKpoa3df/view?usp=sharing)
+![Friend Fragment](https://drive.google.com/file/d/1Ybt_tO6gZdPF9PDp7BCpntpbRSsjLX3H/view?usp=sharing)
+![Activity Chat](https://drive.google.com/file/d/1NkuiNQGFCXum4HOU3xH14kI4mBQAm9Tk/view?usp=sharing)
+![View Story](https://drive.google.com/file/d/1GdTLfmNe43SRxEQLxRmekgde3OY2XfDg/view?usp=sharing)
+![Activity Login](https://drive.google.com/file/d/1mS0UVG6XEnFJjdrEJrsBdYp5fwgsBwRO/view?usp=sharing)
+![Activity ResetPassword](https://drive.google.com/file/d/1qfEZZk5TtGpbed1nLmvJX0G1ASd5jfqo/view?usp=sharing)
