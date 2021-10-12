@@ -60,9 +60,6 @@ public class ChatDetailActivity extends AppCompatActivity {
 
     private static final String TAG = Context.class.getName();
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -241,31 +238,6 @@ public class ChatDetailActivity extends AppCompatActivity {
                 Log.e(TAG, tk);
                 FcmNotificationsSender notificationsSender = new FcmNotificationsSender(tk, title, messageTxt, getApplication(), ChatDetailActivity.this);
                 notificationsSender.SendNotifications();
-
-//                FirebaseMessaging.getInstance().getToken()
-//                        .addOnCompleteListener(new OnCompleteListener<String>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<String> task) {
-//                                if (!task.isSuccessful()) {
-//                                    Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-//                                    return;
-//                                }
-//
-//                                // Get new FCM registration token
-//                                String token = task.getResult();
-//
-//
-//
-//                                // Log and toast
-//                                String title = "New message from "+userName;
-//                                Log.e(TAG, token);
-//                                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(token, title, messageTxt, getApplication(), ChatDetailActivity.this);
-//                                notificationsSender.SendNotifications();
-//                            }
-//                        });
-
-
-
             }
         });
 
@@ -318,6 +290,11 @@ public class ChatDetailActivity extends AppCompatActivity {
                                         message.setMessage("photo");
                                         message.setImageUrl(filePath);
                                         binding.edtMessage.setText("");
+
+                                        String title = "New message from "+uName;
+                                        Log.e(TAG, tk);
+                                        FcmNotificationsSender notificationsSender = new FcmNotificationsSender(tk, title, "Image", getApplication(), ChatDetailActivity.this);
+                                        notificationsSender.SendNotifications();
 
 //                                        String randomKey = database.getReference().push().getKey();
 //

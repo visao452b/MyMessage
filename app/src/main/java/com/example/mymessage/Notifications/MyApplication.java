@@ -8,7 +8,7 @@ import android.os.Build;
 import com.example.mymessage.R;
 
 public class MyApplication extends Application {
-    public static final String CHANNEL_ID = "CHANNEL 1";
+    public static final String CHANNEL_ID = "CHANNEL 2";
 
     @Override
     public void onCreate() {
@@ -22,7 +22,7 @@ public class MyApplication extends Application {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.channel_name);
             String description = getString(R.string.channel_description);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance

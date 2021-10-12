@@ -107,12 +107,8 @@ public class SignInActivity extends AppCompatActivity {
                                                          Log.w(TAG, "Fetching FCM registration token failed", task.getException());
                                                          return;
                                                      }
-
                                                      // Get new FCM registration token
                                                      String token = task.getResult();
-
-
-
                                                      // Log and toast
                                                      Log.e(TAG, token);
                                                      database.getReference().child("Token").child(auth.getUid()).setValue(token).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -123,7 +119,6 @@ public class SignInActivity extends AppCompatActivity {
                                                      });
                                                  }
                                              });
-
                                      Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                                      startActivity(intent);
                                  }else {

@@ -12,9 +12,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.mymessage.Models.Users;
 import com.example.mymessage.databinding.ActivitySignUpBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -51,19 +53,17 @@ public class SignUpActivity extends AppCompatActivity {
                                 if(task.isSuccessful()) {
                                     String id = task.getResult().getUser().getUid();
                                     Users users = new Users(binding.edtUsernameSignUp.getText().toString().trim(), binding.edtEmailSignUp.getText().toString().trim(), id);
-
-
-                                    database.getReference().child("Users").child(id).setValue(users);
-//                                    Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
-//                                    startActivity(intent);
-                                    Toast.makeText(SignUpActivity.this, "User created successfully!",Toast.LENGTH_LONG).show();
-
+                                    database.getReference().child("Users").child(id).setValue(users).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            Toast.makeText(SignUpActivity.this, "User created successfully!",Toast.LENGTH_LONG).show();
+                                        }
+                                    });
                                 }else {
                                     Toast.makeText(SignUpActivity.this,task.getException().getMessage(), Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
-
             }
         });
 

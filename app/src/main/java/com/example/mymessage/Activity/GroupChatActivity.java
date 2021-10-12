@@ -114,15 +114,7 @@ public class GroupChatActivity extends AppCompatActivity {
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-//                        database.getReference().child("chats")
-//                                .child(room)
-//                                .push()
-//                                .setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                            @Override
-//                            public void onSuccess(Void unused) {
-//
-//                            }
-//                        });
+
                     }
                 });
             }

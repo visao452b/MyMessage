@@ -1,11 +1,18 @@
 package com.example.mymessage.Models;
 
-public class Groups {
+import java.io.Serializable;
+
+public class Groups implements Serializable {
     String groupId, groupName ,userIdCreated, profilepic;
     Long timestamp;
     Participants participants;
 
     public Groups() {
+    }
+
+    public Groups(String groupId, String groupName) {
+        this.groupId = groupId;
+        this.groupName = groupName;
     }
 
     public Groups(String groupId, String groupName, String userIdCreated, Long timestamp) {

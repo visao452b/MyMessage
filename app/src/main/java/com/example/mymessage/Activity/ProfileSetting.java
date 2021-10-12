@@ -40,8 +40,6 @@ public class ProfileSetting extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         String uId = auth.getUid();
 
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(Profile.this, R.array.Gender, R.layout.support_simple_spinner_dropdown_item);
-//        binding.spnGender.setAdapter(adapter);
         database.getReference().child("Profiles").child(uId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
