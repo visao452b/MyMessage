@@ -235,7 +235,7 @@ public class ChatDetailActivity extends AppCompatActivity {
                 });
 
                 String title = "New message from "+uName;
-                Log.e(TAG, tk);
+//                Log.e(TAG, tk);
                 FcmNotificationsSender notificationsSender = new FcmNotificationsSender(tk, title, messageTxt, getApplication(), ChatDetailActivity.this);
                 notificationsSender.SendNotifications();
             }

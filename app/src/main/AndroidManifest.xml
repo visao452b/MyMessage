@@ -4,6 +4,7 @@
     package="com.example.mymessage">
 
     <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:name=".Notifications.MyApplication"
         android:allowBackup="true"
@@ -12,6 +13,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyMessage">
+        <activity
+            android:name=".Activity.SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".Notifications.FirebaseMessagingService"
@@ -22,7 +32,7 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".Activity.Profile"></activity>
+        <activity android:name=".Activity.Profile" />
         <activity android:name=".Activity.ChangePassword" />
         <activity android:name=".Activity.ProfileSetting" />
         <activity android:name=".Activity.LogoutActivity" />
@@ -35,16 +45,10 @@
         <activity android:name=".Activity.GroupChatActivity" />
         <activity android:name=".Activity.ChatDetailActivity" />
         <activity android:name=".Activity.SignInActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".Activity.SignUpActivity" />
         <activity android:name=".Activity.MainActivity" />
-
-        <!--        <receiver android:name=".Notifications.MyFirebaseIdService" />-->
     </application>
 
 </manifest>

@@ -1,10 +1,15 @@
 # Ứng dụng chat MyMessage
 Mymessage sử dụng ngôn ngữ java và hệ quản trị cơ sở dữ liệu Firebase để lưu trữ dữ liệu
+## Tính năng của ứng dụng:
+* Đăng ký tài khoản bằng tài khoản google hoặc gmail.
+* Quên mật khẩu lấy lại bằng mail
+* Chat 1-1, Chat 1-n (Có gửi ảnh, thả cảm xúc tin nhắn, xóa tin nhắn, thu hồi tin nhắn,...)
+* Đăng Story
 Các hình ảnh mô tả về ứng dụng
-![Home Fragment](/image/Screenshot_1634053894.png)
-![Chat Fragment](/image/Screenshot_1634053916.png)
-![Friend Fragment](image/Screenshot_1634053920.png)
-![Activity Chat](image/Screenshot_1634053968.png)
-![View Story](image/Screenshot_1634053905.png)
-![Activity Login](image/Screenshot_1634054018.png)
-![Activity ResetPassword](image/Screenshot_1634054026.png)
+![Chat Fragment](/image/Chat.png)
+![Friend Fragment](/image/Friend.png)
+![ChatDetail Activity](image/Message.png)
+![SignIn Activity](image/DangNhap.png)
+![View Story](image/Story.png)
+![Splash Activity](image/XacMinhVanTay.png)
+![ResetPassWord Activity](image/QuenMK.png)

@@ -121,6 +121,7 @@ public class SignInActivity extends AppCompatActivity {
                                              });
                                      Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                                      startActivity(intent);
+                                     finish();
                                  }else {
                                      Toast.makeText(SignInActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                                  }

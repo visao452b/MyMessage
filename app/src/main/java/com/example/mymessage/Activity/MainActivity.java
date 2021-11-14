@@ -11,9 +11,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.mymessage.Adapters.FragmentsAdapter;
@@ -35,6 +38,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executor;
 
 import static com.example.mymessage.Function.RandomString.randomAlphaNumeric;
 
@@ -43,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     FirebaseDatabase database;
     FirebaseAuth auth;
+
+    private long backPressedTime;
+
     private static final String TAG = Context.class.getName();
 
 
@@ -51,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
+
 
         database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("message");
@@ -78,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
 
                         // Get new FCM registration token
                         String token = task.getResult();
-
 
 
                         // Log and toast
@@ -114,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.settings:
                 Intent intent1 = new Intent(this, SettingsActivity.class);
                 startActivity(intent1);
@@ -149,4 +158,15 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+//            super.onBackPressed();
+            finishAffinity();
+            return;
+        } else {
+            Toast.makeText(this, "Press back again to exit the application", Toast.LENGTH_SHORT).show();
+        }
+        backPressedTime = System.currentTimeMillis();
+    }
 }
