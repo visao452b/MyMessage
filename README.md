@@ -5,6 +5,7 @@ Mymessage sử dụng ngôn ngữ java và hệ quản trị cơ sở dữ liệ
 * Quên mật khẩu lấy lại bằng mail
 * Chat 1-1, Chat 1-n (Có gửi ảnh, thả cảm xúc tin nhắn, xóa tin nhắn, thu hồi tin nhắn,...)
 * Đăng Story
+* Xác minh vân tay để vào ứng dụng
 Các hình ảnh mô tả về ứng dụng
 ![Chat Fragment](/image/Chat.png)
 ![Friend Fragment](/image/Friend.png)
