@@ -30,7 +30,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolderFriends>{
+    public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolderFriends>{
 
     ArrayList<Friends> list;
     Context context;

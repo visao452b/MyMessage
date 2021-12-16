@@ -4,7 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/OneDrive - datrang/Desktop/MyMessageDemo/app/src/main/res/layout/activity_change_password.xml" value="0.23854166666666668" />
+        <entry key="..\:/OneDrive - datrang/Desktop/MyMessageDemo/app/src/main/res/layout/activity_chat_detail.xml" value="0.22291666666666668" />
+        <entry key="..\:/OneDrive - datrang/Desktop/MyMessageDemo/app/src/main/res/layout/activity_create_group_chat.xml" value="0.22291666666666668" />
         <entry key="..\:/OneDrive - datrang/Desktop/MyMessageDemo/app/src/main/res/layout/activity_find_friends.xml" value="0.23854166666666668" />
+        <entry key="..\:/OneDrive - datrang/Desktop/MyMessageDemo/app/src/main/res/layout/activity_group_chat.xml" value="0.22291666666666668" />
+        <entry key="..\:/OneDrive - datrang/Desktop/MyMessageDemo/app/src/main/res/layout/activity_logout.xml" value="0.22291666666666668" />
         <entry key="..\:/OneDrive - datrang/Desktop/MyMessageDemo/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/OneDrive - datrang/Desktop/MyMessageDemo/app/src/main/res/layout/activity_sign_in.xml" value="0.23854166666666668" />
         <entry key="..\:/OneDrive - datrang/Desktop/MyMessageDemo/app/src/main/res/layout/activity_sign_up.xml" value="0.23854166666666668" />
@@ -12,6 +16,8 @@
         <entry key="..\:/OneDrive - datrang/Desktop/MyMessageDemo/app/src/main/res/layout/fragment_chats.xml" value="0.2" />
         <entry key="..\:/OneDrive - datrang/Desktop/MyMessageDemo/app/src/main/res/layout/fragment_friends.xml" value="0.134375" />
         <entry key="..\:/OneDrive - datrang/Desktop/MyMessageDemo/app/src/main/res/layout/fragment_story.xml" value="0.134375" />
+        <entry key="..\:/OneDrive - datrang/Desktop/MyMessageDemo/app/src/main/res/layout/sample_post.xml" value="0.25416666666666665" />
+        <entry key="..\:/OneDrive - datrang/Desktop/MyMessageDemo/app/src/main/res/layout/sample_show_friend.xml" value="0.1359375" />
         <entry key="..\:/OneDrive - datrang/Desktop/MyMessageDemo/app/src/main/res/menu/chat_menu.xml" value="0.134375" />
         <entry key="..\:/OneDrive - datrang/Desktop/MyMessageDemo/app/src/main/res/menu/menu.xml" value="0.134375" />
       </map>

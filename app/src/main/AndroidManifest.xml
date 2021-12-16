@@ -15,7 +15,8 @@
         android:theme="@style/Theme.MyMessage">
         <activity
             android:name=".Activity.SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            tools:ignore="Instantiatable">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,23 +33,38 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".Activity.Profile" />
-        <activity android:name=".Activity.ChangePassword" />
-        <activity android:name=".Activity.ProfileSetting" />
-        <activity android:name=".Activity.LogoutActivity" />
-        <activity android:name=".Activity.SettingGroupChat" />
-        <activity android:name=".Activity.CreateGroupChat" />
-        <activity android:name=".Activity.ShowGroupChat" />
-        <activity android:name=".Activity.FindFriends" />
-        <activity android:name=".Activity.ResetPassword" />
-        <activity android:name=".Activity.SettingsActivity" />
-        <activity android:name=".Activity.GroupChatActivity" />
-        <activity android:name=".Activity.ChatDetailActivity" />
-        <activity android:name=".Activity.SignInActivity">
+        <activity android:name=".Activity.Profile"
+            tools:ignore="Instantiatable" />
+        <activity android:name=".Activity.ChangePassword"
+            tools:ignore="Instantiatable" />
+        <activity android:name=".Activity.ProfileSetting"
+            tools:ignore="Instantiatable"/>
+        <activity android:name=".Activity.LogoutActivity"
+            tools:ignore="Instantiatable"/>
+        <activity android:name=".Activity.SettingGroupChat"
+            tools:ignore="Instantiatable"/>
+        <activity android:name=".Activity.CreateGroupChat"
+            tools:ignore="Instantiatable"/>
+        <activity android:name=".Activity.ShowGroupChat"
+            tools:ignore="Instantiatable"/>
+        <activity android:name=".Activity.FindFriends"
+            tools:ignore="Instantiatable"/>
+        <activity android:name=".Activity.ResetPassword"
+            tools:ignore="Instantiatable"/>
+        <activity android:name=".Activity.SettingsActivity"
+            tools:ignore="Instantiatable"/>
+        <activity android:name=".Activity.GroupChatActivity"
+            tools:ignore="Instantiatable"/>
+        <activity android:name=".Activity.ChatDetailActivity"
+            tools:ignore="Instantiatable"/>
+        <activity android:name=".Activity.SignInActivity"
+            tools:ignore="Instantiatable">
 
         </activity>
-        <activity android:name=".Activity.SignUpActivity" />
-        <activity android:name=".Activity.MainActivity" />
+        <activity android:name=".Activity.SignUpActivity"
+            tools:ignore="Instantiatable"/>
+        <activity android:name=".Activity.MainActivity"
+            tools:ignore="Instantiatable"/>
     </application>
 
 </manifest>
